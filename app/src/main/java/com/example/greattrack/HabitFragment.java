@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HabitFragment extends Fragment {
     private static final String TAG = "Habit Fragment";
+    private List<Habit> habitList = new ArrayList<>();
 
     @Nullable
     @Override
