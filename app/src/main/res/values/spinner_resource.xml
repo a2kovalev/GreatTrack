@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <string-array name="frequencies">
+        <item>Half Hour</item>
+        <item>Hour</item>
+        <item>Day</item>
+        <item>Week</item>
+        <item>2 Weeks</item>
+        <item>Month</item>
+        <item>6 Months</item>
+        <item>Year</item>
+    </string-array>
+</resources>

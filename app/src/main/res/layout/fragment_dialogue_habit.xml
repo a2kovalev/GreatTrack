@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:id="@+id/habitName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Habit Name"/>
+
+    <EditText
+        android:id="@+id/habitFrequency"
+        android:layout_width="82dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/habitName"
+        android:layout_alignLeft="@+id/habitName"
+        android:layout_marginTop="52dp"/>
+    <TextView
+        android:id="@+id/timesPer"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:text="times per"
+        android:layout_alignBottom="@+id/habitFrequency"
+        android:layout_below="@+id/habitName"
+        android:layout_toRightOf="@+id/habitFrequency"/>
+
+    <Spinner
+        android:id="@+id/freqSpinner"
+        android:background="#FFFFFF"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/habitName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:layout_toRightOf="@+id/timesPer" />
+
+    <Switch
+        android:id="@+id/reminderSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Reminders"
+        android:layout_alignLeft="@+id/habitFrequency"
+        android:layout_below="@id/habitFrequency"/>
+
+</RelativeLayout>
+</RelativeLayout>
