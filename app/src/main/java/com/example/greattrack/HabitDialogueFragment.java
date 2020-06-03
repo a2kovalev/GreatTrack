@@ -3,30 +3,81 @@ package com.example.greattrack;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
-
+import android.widget.Switch;
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class HabitDialogueFragment extends AppCompatActivity {
+    public static final String TAG = "Habit Dialogue Fragment Activity";
+    public static List<Habit> habitList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d("TAG", "In OnCreate of HabitDialogue");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_dialogue_habit);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         getSupportActionBar().setTitle("Add a New Habit");
         Spinner spinner = (Spinner) findViewById(R.id.freqSpinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.frequencies, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        Button createHabitButton = findViewById(R.id.createHabitButton);
+
+        createHabitButton.setOnClickListener((v) -> {
+            EditText habitNameTextField = findViewById(R.id.habitName);
+            EditText frequencyTextField = findViewById(R.id.habitFrequency);
+            Switch remindersOnSwitch = findViewById(R.id.reminderSwitch);
+            Spinner durationSpinner = findViewById(R.id.freqSpinner);
+            String freqText = frequencyTextField.getText().toString();
+            String habitName = habitNameTextField.getText().toString();
+            String durationText = durationSpinner.getSelectedItem().toString();
+            int frequency = Integer.parseInt(freqText);
+            boolean remindersOn = remindersOnSwitch.isChecked();
+
+            HabitFrequency duration;
+            if (durationText.equals("Half Hour")) {
+                duration = HabitFrequency.halfHourly;
+            } else if (durationText.equals("Hour")) {
+                duration = HabitFrequency.hourly;
+            } else if (durationText.equals("Day")) {
+                duration = HabitFrequency.daily;
+            } else if (durationText.equals("Week")) {
+                duration = HabitFrequency.weekly;
+            } else if (durationText.equals("2 Weeks")) {
+                duration = HabitFrequency.biweekly;
+            } else if (durationText.equals("Month")) {
+                duration = HabitFrequency.monthly;
+            } else if (durationText.equals("6 Months")) {
+                duration = HabitFrequency.halfYearly;
+            } else {
+                duration = HabitFrequency.yearly;
+            }
+
+            Log.d("TAG", "Clicked add habit button");
+            Habit newHabit = new Habit(habitName, frequency, remindersOn, duration);
+            habitList.add(newHabit);
+            Log.d("TAG", "Habit list size:" + habitList.size());
+            finish();});
+
+    }
+
+    public static int getHabitListSize() {
+        return habitList.size();
     }
 }

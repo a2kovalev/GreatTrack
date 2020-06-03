@@ -24,7 +24,9 @@
         android:layout_height="50dp"
         android:layout_below="@+id/habitName"
         android:layout_alignLeft="@+id/habitName"
-        android:layout_marginTop="52dp"/>
+        android:layout_marginTop="52dp"
+        android:text="0"
+        android:inputType="number"/>
     <TextView
         android:id="@+id/timesPer"
         android:layout_marginTop="75dp"
@@ -54,6 +56,15 @@
         android:text="Reminders"
         android:layout_alignLeft="@+id/habitFrequency"
         android:layout_below="@id/habitFrequency"/>
+    <Button
+        android:id="@+id/createHabitButton"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:text="Start Habit"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/reminderSwitch"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>
 </RelativeLayout>
