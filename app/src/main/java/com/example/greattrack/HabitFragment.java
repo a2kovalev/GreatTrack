@@ -2,17 +2,21 @@ package com.example.greattrack;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -49,10 +53,58 @@ public class HabitFragment extends Fragment {
             Log.d("TAG", "adding to linearLayout, am in if statement");
             habitListSize = HabitDialogueFragment.getHabitListSize();
             Habit newHabit = HabitDialogueFragment.habitList.get(habitListSize - 1);
+            MyCardView cardView = new MyCardView(this.getContext());
+            CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
+            cardLayoutParams.setMargins(20, 10, 20, 10);
+            cardView.setLayoutParams(cardLayoutParams);
+            //cardView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
+            cardView.setRadius((float) 20.0);
+            cardView.setBackgroundColor(Color.parseColor("#ffa500"));
+            TextView freqText = new TextView(this.getContext());
+            freqText.setTextSize((float) 15.0);
+
+            String freqLabel = "";
+
+            switch (newHabit.freq) {
+                case hourly:
+                    freqLabel = "hour";
+                case halfHourly:
+                    freqLabel = "30 minutes";
+                case daily:
+                    freqLabel = "day";
+                case weekly:
+                    freqLabel = "week";
+                case biweekly:
+                    freqLabel = "2 weeks";
+                case monthly:
+                    freqLabel = "month";
+                case halfYearly:
+                    freqLabel = "6 months";
+                case yearly:
+                    freqLabel = "year";
+            }
+
+            freqText.setText(newHabit.timesDuringFreq + " times every " + freqLabel);
+            freqText.setId(View.generateViewId());
+
+            RelativeLayout rl = new RelativeLayout(this.getContext());
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             TextView text = new TextView(this.getContext());
+            text.setTextColor(Color.parseColor("#ffffff"));
             text.setText(newHabit.habitName);
-            text.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(text);
+            text.setTextSize((float)19.0);
+            text.setId(View.generateViewId());
+            layoutParams.setMargins(10, 0,0,0);
+            layoutParams2.setMargins(10,0,0,0);
+
+            rl.addView(text, layoutParams);
+            layoutParams2.addRule(RelativeLayout.BELOW, text.getId());
+            rl.addView(freqText, layoutParams2);
+
+            cardView.addView(rl);
+
+            linearLayout.addView(cardView);
         } else {
             Log.d("TAG", "habit list size not changed");
         }
