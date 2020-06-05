@@ -2,6 +2,7 @@ package com.example.greattrack;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,10 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +32,13 @@ public class HabitFragment extends Fragment {
     private static final String TAG = "Habit Fragment";
     public int habitListSize = HabitDialogueFragment.getHabitListSize();
     private LinearLayout linearLayout = null;
+    private List<Habit> habitList;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("TAG", "HabitFragment OnCreateView");
         Log.d("TAG", "habit list size before add new habit: " + habitListSize);
+        loadData();
         View view = inflater.inflate(R.layout.fragment_habit, container, false);
         Button newHabitButton = view.findViewById(R.id.newHabitButton);
         linearLayout = view.findViewById(R.id.linearLayoutInHabitScrollView);
@@ -49,62 +56,78 @@ public class HabitFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (HabitDialogueFragment.getHabitListSize() > habitListSize) {
-            Log.d("TAG", "adding to linearLayout, am in if statement");
-            habitListSize = HabitDialogueFragment.getHabitListSize();
-            Habit newHabit = HabitDialogueFragment.habitList.get(habitListSize - 1);
-            MyCardView cardView = new MyCardView(this.getContext());
-            CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-            cardLayoutParams.setMargins(20, 10, 20, 10);
-            cardView.setLayoutParams(cardLayoutParams);
-            //cardView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
-            cardView.setRadius((float) 20.0);
-            cardView.setBackgroundColor(Color.parseColor("#ffa500"));
-            TextView freqText = new TextView(this.getContext());
-            freqText.setTextSize((float) 15.0);
+        habitList = HabitDialogueFragment.getHabitList();
+        loadData();
+        createCards();
+    }
 
-            String freqLabel = "";
+    public void createCards() {
+        habitList = HabitDialogueFragment.getHabitList();
+        if (HabitDialogueFragment.getHabitListSize() > 0) {
+                for(int i = 0; i < linearLayout.getChildCount(); i++) {
+                    View temp = linearLayout.getChildAt(i);
+                    if (temp instanceof MyCardView) {
+                        linearLayout.removeView(temp);
+                    }
+                }
+                for (Habit newHabit: habitList) {
+                    Log.d("TAG", "adding to linearLayout, am in if statement");
+                    habitListSize = HabitDialogueFragment.getHabitListSize();
+                    MyCardView cardView = new MyCardView(this.getContext());
+                    cardView.setId(View.generateViewId());
+                    CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
+                    cardLayoutParams.setMargins(20, 10, 20, 10);
+                    cardView.setLayoutParams(cardLayoutParams);
+                    //cardView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
+                    cardView.setRadius((float) 20.0);
+                    cardView.setBackgroundColor(Color.parseColor("#ffa500"));
+                    TextView freqText = new TextView(this.getContext());
+                    freqText.setTextSize((float) 15.0);
 
-            switch (newHabit.freq) {
-                case hourly:
-                    freqLabel = "hour";
-                case halfHourly:
-                    freqLabel = "30 minutes";
-                case daily:
-                    freqLabel = "day";
-                case weekly:
-                    freqLabel = "week";
-                case biweekly:
-                    freqLabel = "2 weeks";
-                case monthly:
-                    freqLabel = "month";
-                case halfYearly:
-                    freqLabel = "6 months";
-                case yearly:
-                    freqLabel = "year";
-            }
+                    String freqLabel = "";
 
-            freqText.setText(newHabit.timesDuringFreq + " times every " + freqLabel);
-            freqText.setId(View.generateViewId());
+                    switch (newHabit.freq) {
+                        case hourly:
+                            freqLabel = "hour";
+                        case halfHourly:
+                            freqLabel = "30 minutes";
+                        case daily:
+                            freqLabel = "day";
+                        case weekly:
+                            freqLabel = "week";
+                        case biweekly:
+                            freqLabel = "2 weeks";
+                        case monthly:
+                            freqLabel = "month";
+                        case halfYearly:
+                            freqLabel = "6 months";
+                        case yearly:
+                            freqLabel = "year";
+                    }
 
-            RelativeLayout rl = new RelativeLayout(this.getContext());
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            TextView text = new TextView(this.getContext());
-            text.setTextColor(Color.parseColor("#ffffff"));
-            text.setText(newHabit.habitName);
-            text.setTextSize((float)19.0);
-            text.setId(View.generateViewId());
-            layoutParams.setMargins(10, 0,0,0);
-            layoutParams2.setMargins(10,0,0,0);
+                    freqText.setText(newHabit.timesDuringFreq + " times every " + freqLabel);
+                    freqText.setId(View.generateViewId());
 
-            rl.addView(text, layoutParams);
-            layoutParams2.addRule(RelativeLayout.BELOW, text.getId());
-            rl.addView(freqText, layoutParams2);
+                    RelativeLayout rl = new RelativeLayout(this.getContext());
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    TextView text = new TextView(this.getContext());
+                    text.setTextColor(Color.parseColor("#ffffff"));
+                    text.setText(newHabit.habitName);
+                    text.setTextSize((float) 19.0);
+                    text.setId(View.generateViewId());
+                    layoutParams.setMargins(10, 0, 0, 0);
+                    layoutParams2.setMargins(10, 0, 0, 0);
 
-            cardView.addView(rl);
+                    rl.addView(text, layoutParams);
+                    layoutParams2.addRule(RelativeLayout.BELOW, text.getId());
+                    rl.addView(freqText, layoutParams2);
 
-            linearLayout.addView(cardView);
+                    cardView.addView(rl);
+
+                    linearLayout.addView(cardView);
+                    saveData();
+                }
         } else {
             Log.d("TAG", "habit list size not changed");
         }
@@ -116,4 +139,37 @@ public class HabitFragment extends Fragment {
         startActivity(intent);
     }
 
+    public void saveData() {
+        Log.d("TAG", "saveData method");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(habitList);
+        editor.putString("habit list", json);
+        editor.commit();
+    }
+
+    public void loadData() {
+        Log.d("TAG", "loadData method");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", 0);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("habit list", null);
+        Type type = new TypeToken<ArrayList<Habit>>() {}.getType();
+        habitList = gson.fromJson(json, type);
+
+        if(habitList == null) {
+            habitList = new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveData();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        saveData();
+    }
 }

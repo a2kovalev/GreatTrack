@@ -1,5 +1,6 @@
 package com.example.greattrack;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,13 +18,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HabitDialogueFragment extends AppCompatActivity {
     public static final String TAG = "Habit Dialogue Fragment Activity";
-    public static List<Habit> habitList = new ArrayList<>();
+    public static List<Habit> habitList = new ArrayList<Habit>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("TAG", "In OnCreate of HabitDialogue");
@@ -74,7 +79,10 @@ public class HabitDialogueFragment extends AppCompatActivity {
             habitList.add(newHabit);
             Log.d("TAG", "Habit list size:" + habitList.size());
             finish();});
+    }
 
+    public static List<Habit> getHabitList() {
+        return habitList;
     }
 
     public static int getHabitListSize() {
