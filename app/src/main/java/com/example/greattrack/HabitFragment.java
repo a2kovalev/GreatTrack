@@ -62,6 +62,7 @@ public class HabitFragment extends Fragment {
     }
 
     public void createCards() {
+        Log.d("TAG", "createCards method");
         habitList = HabitDialogueFragment.getHabitList();
         if (HabitDialogueFragment.getHabitListSize() > 0) {
                 for(int i = 0; i < linearLayout.getChildCount(); i++) {
@@ -89,20 +90,28 @@ public class HabitFragment extends Fragment {
                     switch (newHabit.freq) {
                         case hourly:
                             freqLabel = "hour";
+                            break;
                         case halfHourly:
                             freqLabel = "30 minutes";
+                            break;
                         case daily:
                             freqLabel = "day";
+                            break;
                         case weekly:
                             freqLabel = "week";
+                            break;
                         case biweekly:
                             freqLabel = "2 weeks";
+                            break;
                         case monthly:
                             freqLabel = "month";
+                            break;
                         case halfYearly:
                             freqLabel = "6 months";
+                            break;
                         case yearly:
                             freqLabel = "year";
+                            break;
                     }
 
                     freqText.setText(newHabit.timesDuringFreq + " times every " + freqLabel);
