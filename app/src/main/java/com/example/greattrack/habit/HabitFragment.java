@@ -1,16 +1,17 @@
-package com.example.greattrack;
+package com.example.greattrack.habit;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,8 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.greattrack.MyCardView;
+import com.example.greattrack.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,15 +32,14 @@ import java.util.List;
 
 public class HabitFragment extends Fragment {
     private static final String TAG = "Habit Fragment";
-    public int habitListSize = HabitDialogueFragment.getHabitListSize();
     private LinearLayout linearLayout = null;
-    private List<Habit> habitList;
+    public static List<Habit> habitList = new ArrayList<Habit>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("TAG", "HabitFragment OnCreateView");
-        Log.d("TAG", "habit list size before add new habit: " + habitListSize);
-        loadData();
+        Log.d("TAG", "habit list size before add new habit: " + habitList.size());
+        habitList = getHabitList();
         View view = inflater.inflate(R.layout.fragment_habit, container, false);
         Button newHabitButton = view.findViewById(R.id.newHabitButton);
         linearLayout = view.findViewById(R.id.linearLayoutInHabitScrollView);
@@ -56,15 +57,13 @@ public class HabitFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        habitList = HabitDialogueFragment.getHabitList();
-        loadData();
+        saveHabitList();
         createCards();
     }
 
     public void createCards() {
         Log.d("TAG", "createCards method");
-        habitList = HabitDialogueFragment.getHabitList();
-        if (HabitDialogueFragment.getHabitListSize() > 0) {
+        if (habitList.size() > 0) {
                 for(int i = 0; i < linearLayout.getChildCount(); i++) {
                     View temp = linearLayout.getChildAt(i);
                     if (temp instanceof MyCardView) {
@@ -73,7 +72,6 @@ public class HabitFragment extends Fragment {
                 }
                 for (Habit newHabit: habitList) {
                     Log.d("TAG", "adding to linearLayout, am in if statement");
-                    habitListSize = HabitDialogueFragment.getHabitListSize();
                     MyCardView cardView = new MyCardView(this.getContext());
                     cardView.setId(View.generateViewId());
                     CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
@@ -86,6 +84,10 @@ public class HabitFragment extends Fragment {
                     freqText.setTextSize((float) 15.0);
 
                     String freqLabel = "";
+                    String mightBePlural = " times every ";
+                    if (newHabit.timesDuringFreq == 1) {
+                        mightBePlural = " time every ";
+                    }
 
                     switch (newHabit.freq) {
                         case hourly:
@@ -114,7 +116,7 @@ public class HabitFragment extends Fragment {
                             break;
                     }
 
-                    freqText.setText(newHabit.timesDuringFreq + " times every " + freqLabel);
+                    freqText.setText(newHabit.timesDuringFreq + mightBePlural + freqLabel);
                     freqText.setId(View.generateViewId());
 
                     RelativeLayout rl = new RelativeLayout(this.getContext());
@@ -135,7 +137,6 @@ public class HabitFragment extends Fragment {
                     cardView.addView(rl);
 
                     linearLayout.addView(cardView);
-                    saveData();
                 }
         } else {
             Log.d("TAG", "habit list size not changed");
@@ -144,41 +145,35 @@ public class HabitFragment extends Fragment {
 
     private void goToDialogue() {
         Log.d("TAG", "HabitFragment goToDialogue");
-        Intent intent = new Intent(HabitFragment.this.getActivity(), HabitDialogueFragment.class);
+        Intent intent = new Intent(HabitFragment.this.getActivity(), HabitDialogueActivity.class);
         startActivity(intent);
     }
 
-    public void saveData() {
-        Log.d("TAG", "saveData method");
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    public void saveHabitList(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
         String json = gson.toJson(habitList);
+        editor.clear();
         editor.putString("habit list", json);
         editor.commit();
     }
 
-    public void loadData() {
-        Log.d("TAG", "loadData method");
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", 0);
+    public ArrayList<Habit> getHabitList(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("habit list", null);
+        String json = sharedPref.getString("habit list", null);
         Type type = new TypeToken<ArrayList<Habit>>() {}.getType();
-        habitList = gson.fromJson(json, type);
-
-        if(habitList == null) {
-            habitList = new ArrayList<>();
-        }
+        return gson.fromJson(json, type);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        saveData();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        saveData();
-    }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//    }
 }

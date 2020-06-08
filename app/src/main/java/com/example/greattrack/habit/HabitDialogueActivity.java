@@ -1,34 +1,25 @@
-package com.example.greattrack;
+package com.example.greattrack.habit;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import androidx.annotation.LongDef;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.example.greattrack.R;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HabitDialogueFragment extends AppCompatActivity {
+public class HabitDialogueActivity extends AppCompatActivity {
     public static final String TAG = "Habit Dialogue Fragment Activity";
-    public static List<Habit> habitList = new ArrayList<Habit>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("TAG", "In OnCreate of HabitDialogue");
@@ -76,16 +67,7 @@ public class HabitDialogueFragment extends AppCompatActivity {
 
             Log.d("TAG", "Clicked add habit button");
             Habit newHabit = new Habit(habitName, frequency, remindersOn, duration);
-            habitList.add(newHabit);
-            Log.d("TAG", "Habit list size:" + habitList.size());
+            HabitFragment.habitList.add(newHabit);
             finish();});
-    }
-
-    public static List<Habit> getHabitList() {
-        return habitList;
-    }
-
-    public static int getHabitListSize() {
-        return habitList.size();
     }
 }

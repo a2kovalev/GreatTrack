@@ -1,10 +1,12 @@
-package com.example.greattrack;
+package com.example.greattrack.habit;
+
+import java.io.Serializable;
 
 enum HabitFrequency {
     halfHourly, hourly, daily, weekly, biweekly, monthly, halfYearly, yearly
 }
 
-public class Habit {
+public class Habit implements Serializable {
     String habitName;
     int timesDuringFreq;
     boolean remindersOn;
