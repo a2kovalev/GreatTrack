@@ -12,6 +12,7 @@
 
     <EditText
         android:id="@+id/habitName"
+        android:selectAllOnFocus="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_width="250dp"
@@ -20,6 +21,7 @@
 
     <EditText
         android:id="@+id/habitFrequency"
+        android:selectAllOnFocus="true"
         android:layout_width="82dp"
         android:layout_height="50dp"
         android:layout_below="@+id/habitName"
@@ -61,6 +63,7 @@
         android:layout_width="180dp"
         android:layout_height="40dp"
         android:text="Start Habit"
+        android:background="@drawable/round_btn"
         android:layout_marginTop="20dp"
         android:layout_below="@id/reminderSwitch"
         android:layout_centerHorizontal="true"

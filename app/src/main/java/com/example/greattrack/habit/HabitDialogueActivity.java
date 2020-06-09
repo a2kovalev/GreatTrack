@@ -34,6 +34,7 @@ public class HabitDialogueActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         Button createHabitButton = findViewById(R.id.createHabitButton);
+        createHabitButton.setTextColor(Color.parseColor("#ffffff"));
 
         createHabitButton.setOnClickListener((v) -> {
             EditText habitNameTextField = findViewById(R.id.habitName);
