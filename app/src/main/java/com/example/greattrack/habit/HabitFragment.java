@@ -28,12 +28,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HabitFragment extends Fragment {
     private static final String TAG = "Habit Fragment";
     private LinearLayout linearLayout = null;
     public static List<Habit> habitList = new ArrayList<Habit>();
+    public static Map<Habit, int[]> remindersOnHabits = new HashMap<Habit, int[]>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -137,11 +140,11 @@ public class HabitFragment extends Fragment {
                     infoButton.setId(View.generateViewId());
                     infoButton.setText("Info");
                     infoButton.setTextColor(Color.parseColor("#ffa500"));
-                    infoButton.setTextSize((float) 12.0);
+                    infoButton.setTextSize((float) 14.0);
                     infoButton.setBackgroundColor(Color.parseColor("#f5f5f5"));
-                    deleteButton.setText("X");
+                    deleteButton.setText("Delete");
                     deleteButton.setTextColor(Color.parseColor("#ffa500"));
-                    deleteButton.setTextSize((float) 18.0);
+                    deleteButton.setTextSize((float) 14.0);
                     deleteButton.setBackgroundColor(Color.parseColor("#f5f5f5"));
                     TextView text = new TextView(this.getContext());
                     text.setTextColor(Color.parseColor("#ffffff"));
@@ -165,6 +168,8 @@ public class HabitFragment extends Fragment {
                     deleteButton.setOnClickListener(v -> removeHabit(newHabit, cardView));
 
                     cardView.addView(rl);
+
+
 
                     linearLayout.addView(cardView);
                 }
