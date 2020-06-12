@@ -1,0 +1,65 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#f5f5f5">
+
+    <TextView
+        android:id="@+id/logHabitName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Habit Name"
+        android:textSize="12pt"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        />
+    <TextView
+        android:id="@+id/logHabitFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "X times per duration"
+        android:textSize="7pt"
+        android:layout_below="@+id/logHabitName"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/didYouDoIt"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logHabitFrequency"
+        android:text="Have you done your habit?"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/LogTheHabitButton"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/didYouDoIt"
+        android:text="Yes, log habit"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:textSize="8pt"
+        android:layout_marginTop="5dp"
+        />
+    <ScrollView
+        android:id="@+id/HabitLogScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LogTheHabitButton"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+
+
+
+
+</RelativeLayout>

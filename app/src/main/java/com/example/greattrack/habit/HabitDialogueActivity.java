@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +41,24 @@ public class HabitDialogueActivity extends AppCompatActivity {
         createHabitButton.setTextColor(Color.parseColor("#ffffff"));
 
         Switch remindersOnSwitch = findViewById(R.id.reminderSwitch);
+        remindersOnSwitch.setVisibility(View.INVISIBLE);
 
         int[] reminderTime = {-1, -1};
+
+        Spinner durationSpinner = findViewById(R.id.freqSpinner);
+
+      /*  durationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                if(selectedItem.equals("Day") && ) {
+                    remindersOnSwitch.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         remindersOnSwitch.setOnClickListener((v) -> {
             if (remindersOnSwitch.isChecked()) {
@@ -72,17 +89,17 @@ public class HabitDialogueActivity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
+        }); */
 
         createHabitButton.setOnClickListener((v) -> {
             EditText habitNameTextField = findViewById(R.id.habitName);
             EditText frequencyTextField = findViewById(R.id.habitFrequency);
-            Spinner durationSpinner = findViewById(R.id.freqSpinner);
             String freqText = frequencyTextField.getText().toString();
             String habitName = habitNameTextField.getText().toString();
-            String durationText = durationSpinner.getSelectedItem().toString();
             int frequency = Integer.parseInt(freqText);
-            boolean remindersOn = remindersOnSwitch.isChecked();
+            /*boolean remindersOn = remindersOnSwitch.isChecked(); */
+            boolean remindersOn = false;
+            String durationText = durationSpinner.getSelectedItem().toString();
 
             HabitFrequency duration;
             if (durationText.equals("Half Hour")) {

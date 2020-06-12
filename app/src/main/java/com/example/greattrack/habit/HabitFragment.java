@@ -1,7 +1,9 @@
 package com.example.greattrack.habit;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -138,7 +140,7 @@ public class HabitFragment extends Fragment {
                     deleteButton.setId(View.generateViewId());
                     Button infoButton = new Button(this.getContext());
                     infoButton.setId(View.generateViewId());
-                    infoButton.setText("Info");
+                    infoButton.setText("Log");
                     infoButton.setTextColor(Color.parseColor("#ffa500"));
                     infoButton.setTextSize((float) 14.0);
                     infoButton.setBackgroundColor(Color.parseColor("#f5f5f5"));
@@ -165,7 +167,30 @@ public class HabitFragment extends Fragment {
                     infoButtonParams.addRule(RelativeLayout.LEFT_OF, deleteButton.getId());
                     infoButtonParams.addRule(RelativeLayout.CENTER_VERTICAL);
                     rl.addView(infoButton, infoButtonParams);
-                    deleteButton.setOnClickListener(v -> removeHabit(newHabit, cardView));
+                    deleteButton.setOnClickListener(v -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                        builder.setTitle("Delete Habit \"" + newHabit.habitName + "\"");
+                        builder.setMessage("Are you sure that you would like to delete this habit?");
+
+                        builder.setPositiveButton("Yes, delete \"" + newHabit.habitName + "\"", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeHabit(newHabit, cardView);
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    });
+
+                    infoButton.setOnClickListener(v -> goToLog(newHabit));
 
                     cardView.addView(rl);
 
@@ -189,6 +214,13 @@ public class HabitFragment extends Fragment {
     private void goToDialogue() {
         Log.d("TAG", "HabitFragment goToDialogue");
         Intent intent = new Intent(HabitFragment.this.getActivity(), HabitDialogueActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToLog(Habit habit) {
+        Log.d("TAG", "HabitFragment goToLog function");
+        Intent intent = new Intent(HabitFragment.this.getActivity(), HabitLog.class);
+        intent.putExtra("SentHabit", habit);
         startActivity(intent);
     }
 
