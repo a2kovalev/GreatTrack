@@ -1,6 +1,7 @@
 package com.example.greattrack.habit;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +65,17 @@ public class HabitFragment extends Fragment {
         super.onResume();
         saveHabitList();
         createCards();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                final String result = data.getStringExtra("dateTimes");
+                Log.d("TAG", "LOOK HERE: " + result);
+            }
+        }
     }
 
     public void createCards() {
@@ -221,7 +234,7 @@ public class HabitFragment extends Fragment {
         Log.d("TAG", "HabitFragment goToLog function");
         Intent intent = new Intent(HabitFragment.this.getActivity(), HabitLog.class);
         intent.putExtra("SentHabit", habit);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     public void saveHabitList(){

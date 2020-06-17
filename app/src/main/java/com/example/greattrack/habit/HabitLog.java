@@ -1,12 +1,15 @@
 package com.example.greattrack.habit;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +20,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.greattrack.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +40,7 @@ public class HabitLog extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TAG", "Habit Log activity");
+        displayLog();
         RelativeLayout relativeLayout = findViewById(R.id.habitLogRelativeLayout);
         ScrollView scrollView = findViewById(R.id.HabitLogScrollView);
         setContentView(R.layout.habit_log);
@@ -39,6 +48,13 @@ public class HabitLog extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         Intent intent = getIntent();
         Habit habit = (Habit) intent.getSerializableExtra("SentHabit");
+        Habit oldHabit = habit;
+        Button doneButton = findViewById(R.id.LogDoneButton);
+        int index = HabitFragment.habitList.indexOf(habit);
+        Log.d("TAG", "Habit index is: " + index);
+        if (habit.getHabitLog() != null) {
+            datesAndTimes = habit.HabitLog;
+        }
         TextView titleName = findViewById(R.id.logHabitName);
         titleName.setText(habit.habitName);
         TextView subheadingName = findViewById(R.id.logHabitFrequency);
@@ -88,6 +104,7 @@ public class HabitLog extends AppCompatActivity {
 
             TextView textView = new TextView(this);
             LinearLayout linearLayout = findViewById(R.id.HabitLogLinearLayout);
+            CardView cardView = new CardView(this);
 
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -99,11 +116,7 @@ public class HabitLog extends AppCompatActivity {
                     dateTime[0] = new HabitDateAndTime(timePicker.getHour(), timePicker.getMinute(),
                             datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                     datesAndTimes.add(dateTime[0]);
-
-                    textView.setText("Done at the hour " + dateTime[0].getHour());
-                    textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    linearLayout.addView(textView);
-
+                    displayLog();
                     dialog.dismiss();
                 }
             });
@@ -117,5 +130,35 @@ public class HabitLog extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         });
+
+        doneButton.setOnClickListener(v -> {
+            Gson gson = new Gson();
+            Intent data = new Intent();
+            data.putExtra("dateTimes", gson.toJson(datesAndTimes));
+            setResult(RESULT_OK, data);
+            finish();
+        });
+
+    }
+
+    public void displayLog() {
+        Log.d("TAG", "displayLog() called");
+        Log.d("TAG", "datesAndTimes list size: " + datesAndTimes.size());
+        LinearLayout linearLayout = findViewById(R.id.HabitLogLinearLayout);
+        if (linearLayout != null) {
+            linearLayout.removeAllViewsInLayout();
+        }
+        for (HabitDateAndTime dateAndTime : datesAndTimes) {
+            TextView textView = new TextView(this);
+            CardView cardView = new CardView(this);
+            textView.setText("Done at " + dateAndTime.getHour() + ":" + dateAndTime.getMinute() + " on "
+                    + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+            textView.setTextSize((float) 20.0);
+            textView.setTextColor(Color.parseColor("#000000"));
+            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            cardView.addView(textView);
+            cardView.setBackgroundColor(Color.parseColor("#d3d3d3"));
+            linearLayout.addView(cardView);
+        }
     }
 }

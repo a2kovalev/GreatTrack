@@ -50,18 +50,33 @@
     <ScrollView
         android:id="@+id/HabitLogScrollView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="450dp"
         android:layout_below="@id/LogTheHabitButton"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:background="#d3d3d3">
         <LinearLayout
             android:id="@+id/HabitLogLinearLayout"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:background="#d3d3d3"/>
 
     </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:id="@+id/LogDoneButton"
+        android:text="DONE"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:textSize="8pt"
+        android:layout_below="@id/HabitLogScrollView"
+        >
+    </Button>
 
 </RelativeLayout>

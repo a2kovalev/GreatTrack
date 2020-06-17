@@ -1,6 +1,8 @@
 package com.example.greattrack.habit;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 enum HabitFrequency {
     halfHourly, hourly, daily, weekly, biweekly, monthly, halfYearly, yearly
@@ -11,6 +13,7 @@ public class Habit implements Serializable {
     int timesDuringFreq;
     boolean remindersOn;
     HabitFrequency freq;
+    List<HabitDateAndTime> HabitLog = new ArrayList<HabitDateAndTime>();
 
     public Habit(String habitName, int timesDuringFreq, boolean remindersOn, HabitFrequency freq) {
         this.habitName = habitName;
@@ -33,5 +36,21 @@ public class Habit implements Serializable {
 
     public HabitFrequency getFreq() {
         return freq;
+    }
+
+    public void setDatesAndTimes(List<HabitDateAndTime> datesAndTimes) {
+        this.HabitLog = datesAndTimes;
+    }
+
+    public void addToLog(HabitDateAndTime dateAndTime) {
+        HabitLog.add(dateAndTime);
+    }
+
+    public void removeFromLog(HabitDateAndTime dateAndTime) {
+        HabitLog.remove(dateAndTime);
+    }
+
+    public List<HabitDateAndTime> getHabitLog () {
+        return HabitLog;
     }
 }
