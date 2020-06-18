@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HabitLog extends AppCompatActivity {
-    List<HabitDateAndTime> datesAndTimes = new ArrayList<HabitDateAndTime>();
+    ArrayList<HabitDateAndTime> datesAndTimes = new ArrayList<HabitDateAndTime>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,9 +132,8 @@ public class HabitLog extends AppCompatActivity {
         });
 
         doneButton.setOnClickListener(v -> {
-            Gson gson = new Gson();
             Intent data = new Intent();
-            data.putExtra("dateTimes", gson.toJson(datesAndTimes));
+            data.putParcelableArrayListExtra("dateTimes", datesAndTimes);
             setResult(RESULT_OK, data);
             finish();
         });

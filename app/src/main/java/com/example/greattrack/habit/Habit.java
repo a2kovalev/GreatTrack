@@ -13,7 +13,7 @@ public class Habit implements Serializable {
     int timesDuringFreq;
     boolean remindersOn;
     HabitFrequency freq;
-    List<HabitDateAndTime> HabitLog = new ArrayList<HabitDateAndTime>();
+    ArrayList<HabitDateAndTime> HabitLog = new ArrayList<HabitDateAndTime>();
 
     public Habit(String habitName, int timesDuringFreq, boolean remindersOn, HabitFrequency freq) {
         this.habitName = habitName;
@@ -38,7 +38,7 @@ public class Habit implements Serializable {
         return freq;
     }
 
-    public void setDatesAndTimes(List<HabitDateAndTime> datesAndTimes) {
+    public void setDatesAndTimes(ArrayList<HabitDateAndTime> datesAndTimes) {
         this.HabitLog = datesAndTimes;
     }
 

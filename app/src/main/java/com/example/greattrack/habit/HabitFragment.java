@@ -30,6 +30,7 @@ import com.example.greattrack.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public class HabitFragment extends Fragment {
     private LinearLayout linearLayout = null;
     public static List<Habit> habitList = new ArrayList<Habit>();
     public static Map<Habit, int[]> remindersOnHabits = new HashMap<Habit, int[]>();
+    public int habitIndex = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class HabitFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
-                final String result = data.getStringExtra("dateTimes");
+                ArrayList<HabitDateAndTime> result = data.getParcelableArrayListExtra("dateTimes");
                 Log.d("TAG", "LOOK HERE: " + result);
             }
         }
@@ -203,7 +205,10 @@ public class HabitFragment extends Fragment {
                         dialog.show();
                     });
 
-                    infoButton.setOnClickListener(v -> goToLog(newHabit));
+                    infoButton.setOnClickListener(v -> {
+                        goToLog(newHabit);
+                        habitIndex = habitList.indexOf(newHabit);
+                    });
 
                     cardView.addView(rl);
 
@@ -255,13 +260,4 @@ public class HabitFragment extends Fragment {
         return gson.fromJson(json, type);
     }
 
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//    }
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//    }
 }
