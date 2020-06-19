@@ -3,7 +3,9 @@ package com.example.greattrack.habit;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HabitDateAndTime implements Parcelable {
+import java.io.Serializable;
+
+public class HabitDateAndTime implements Parcelable, Serializable {
     int hour, minute, year, month, day;
 
     public HabitDateAndTime(int hour, int minute, int year, int month, int day) {

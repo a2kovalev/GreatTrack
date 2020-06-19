@@ -76,6 +76,8 @@ public class HabitFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 ArrayList<HabitDateAndTime> result = data.getParcelableArrayListExtra("dateTimes");
                 Log.d("TAG", "LOOK HERE: " + result);
+                habitList.get(habitIndex).HabitLog = result;
+                saveHabitList();
             }
         }
     }
@@ -117,12 +119,6 @@ public class HabitFragment extends Fragment {
                     }
 
                     switch (newHabit.freq) {
-                        case hourly:
-                            freqLabel = "hour";
-                            break;
-                        case halfHourly:
-                            freqLabel = "30 minutes";
-                            break;
                         case daily:
                             freqLabel = "day";
                             break;

@@ -40,7 +40,6 @@ public class HabitLog extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TAG", "Habit Log activity");
-        displayLog();
         RelativeLayout relativeLayout = findViewById(R.id.habitLogRelativeLayout);
         ScrollView scrollView = findViewById(R.id.HabitLogScrollView);
         setContentView(R.layout.habit_log);
@@ -48,7 +47,7 @@ public class HabitLog extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         Intent intent = getIntent();
         Habit habit = (Habit) intent.getSerializableExtra("SentHabit");
-        Habit oldHabit = habit;
+        oldLogEntries(habit);
         Button doneButton = findViewById(R.id.LogDoneButton);
         int index = HabitFragment.habitList.indexOf(habit);
         Log.d("TAG", "Habit index is: " + index);
@@ -60,12 +59,6 @@ public class HabitLog extends AppCompatActivity {
         TextView subheadingName = findViewById(R.id.logHabitFrequency);
         String freqLabel = "";
         switch (habit.freq) {
-            case hourly:
-                freqLabel = "hour";
-                break;
-            case halfHourly:
-                freqLabel = "30 minutes";
-                break;
             case daily:
                 freqLabel = "day";
                 break;
@@ -140,6 +133,31 @@ public class HabitLog extends AppCompatActivity {
 
     }
 
+    public void oldLogEntries(Habit habit) {
+        LinearLayout linearLayout = findViewById(R.id.HabitLogLinearLayout);
+        if (habit.HabitLog != null) {
+            for (HabitDateAndTime dateAndTime : habit.HabitLog) {
+                TextView textView = new TextView(this);
+                CardView cardView = new CardView(this);
+                String lessThanTenTime = "";
+                if (dateAndTime.getMinute() < 10) {
+                    lessThanTenTime = "0" + dateAndTime.getMinute();
+                    textView.setText("Done at " + dateAndTime.getHour() + ":" + lessThanTenTime + " on "
+                            + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+                } else {
+                    textView.setText("Done at " + dateAndTime.getHour() + ":" + dateAndTime.getMinute() + " on "
+                            + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+                }
+                textView.setTextSize((float) 20.0);
+                textView.setTextColor(Color.parseColor("#000000"));
+                textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                cardView.addView(textView);
+                cardView.setBackgroundColor(Color.parseColor("#d3d3d3"));
+                linearLayout.addView(cardView);
+            }
+        }
+    }
+
     public void displayLog() {
         Log.d("TAG", "displayLog() called");
         Log.d("TAG", "datesAndTimes list size: " + datesAndTimes.size());
@@ -150,8 +168,15 @@ public class HabitLog extends AppCompatActivity {
         for (HabitDateAndTime dateAndTime : datesAndTimes) {
             TextView textView = new TextView(this);
             CardView cardView = new CardView(this);
-            textView.setText("Done at " + dateAndTime.getHour() + ":" + dateAndTime.getMinute() + " on "
-                    + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+            String lessThanTenTime = "";
+            if (dateAndTime.getMinute() < 10) {
+                lessThanTenTime = "0" + dateAndTime.getMinute();
+                textView.setText("Done at " + dateAndTime.getHour() + ":" + lessThanTenTime + " on "
+                        + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+            } else {
+                textView.setText("Done at " + dateAndTime.getHour() + ":" + dateAndTime.getMinute() + " on "
+                        + dateAndTime.getMonth() + "/" + dateAndTime.getDay() + "/" + dateAndTime.getYear());
+            }
             textView.setTextSize((float) 20.0);
             textView.setTextColor(Color.parseColor("#000000"));
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
