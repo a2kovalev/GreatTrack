@@ -65,8 +65,8 @@ public class HabitDateAndTime implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.hour);
         dest.writeInt(this.minute);
-        dest.writeInt(this.day);
-        dest.writeInt(this.month);
         dest.writeInt(this.year);
+        dest.writeInt(this.month);
+        dest.writeInt(this.day);
     }
 }

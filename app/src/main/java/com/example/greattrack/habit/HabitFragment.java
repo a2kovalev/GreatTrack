@@ -78,6 +78,9 @@ public class HabitFragment extends Fragment {
                 Log.d("TAG", "LOOK HERE: " + result);
                 habitList.get(habitIndex).HabitLog = result;
                 saveHabitList();
+                for (HabitDateAndTime dateTime : habitList.get(habitIndex).getHabitLog()) {
+                    Log.d("TAG", "DateTimes day: " + dateTime.getDay());
+                }
             }
         }
     }
@@ -104,7 +107,6 @@ public class HabitFragment extends Fragment {
                     CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
                     cardLayoutParams.setMargins(20, 10, 20, 10);
                     cardView.setLayoutParams(cardLayoutParams);
-                    //cardView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
                     cardView.setRadius((float) 20.0);
                     cardView.setBackgroundColor(Color.parseColor("#ffa500"));
                     TextView freqText = new TextView(this.getContext());

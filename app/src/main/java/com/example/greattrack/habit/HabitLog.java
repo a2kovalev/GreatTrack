@@ -11,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import java.util.List;
 
 public class HabitLog extends AppCompatActivity {
     ArrayList<HabitDateAndTime> datesAndTimes = new ArrayList<HabitDateAndTime>();
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,12 +136,15 @@ public class HabitLog extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void oldLogEntries(Habit habit) {
         LinearLayout linearLayout = findViewById(R.id.HabitLogLinearLayout);
         if (habit.HabitLog != null) {
             for (HabitDateAndTime dateAndTime : habit.HabitLog) {
                 TextView textView = new TextView(this);
+                textView.setId(View.generateViewId());
                 CardView cardView = new CardView(this);
+                RelativeLayout rl = new RelativeLayout(this);
                 String lessThanTenTime = "";
                 if (dateAndTime.getMinute() < 10) {
                     lessThanTenTime = "0" + dateAndTime.getMinute();
@@ -151,13 +157,39 @@ public class HabitLog extends AppCompatActivity {
                 textView.setTextSize((float) 20.0);
                 textView.setTextColor(Color.parseColor("#000000"));
                 textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                cardView.addView(textView);
-                cardView.setBackgroundColor(Color.parseColor("#d3d3d3"));
-                linearLayout.addView(cardView);
+                cardView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                Button deleteButton = new Button(this);
+                deleteButton.setText("X");
+                deleteButton.setTextSize((float) 20.0);
+                deleteButton.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                deleteButton.setStateListAnimator(null);
+                deleteButton.setTextColor(Color.parseColor("#FF0000"));
+
+                deleteButton.setOnClickListener(v -> {
+                    habit.getHabitLog().remove(dateAndTime);
+                    linearLayout.removeView(cardView);
+                });
+
+                RelativeLayout.LayoutParams deleteButtonParams =
+                        new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams textLayout =
+                        new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams cardLayout =
+                        new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                cardLayout.setMargins(10,10,10, 10);
+                textLayout.addRule(RelativeLayout.CENTER_VERTICAL);
+                textLayout.setMargins(5, 0, 0, 0);
+                deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+                rl.addView(deleteButton, deleteButtonParams);
+                rl.addView(textView, textLayout);
+                cardView.addView(rl);
+                cardView.setRadius((float) 20.0);
+                linearLayout.addView(cardView, 0, cardLayout);
             }
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void displayLog() {
         Log.d("TAG", "displayLog() called");
         Log.d("TAG", "datesAndTimes list size: " + datesAndTimes.size());
@@ -167,7 +199,9 @@ public class HabitLog extends AppCompatActivity {
         }
         for (HabitDateAndTime dateAndTime : datesAndTimes) {
             TextView textView = new TextView(this);
+            textView.setId(View.generateViewId());
             CardView cardView = new CardView(this);
+            RelativeLayout rl = new RelativeLayout(this);
             String lessThanTenTime = "";
             if (dateAndTime.getMinute() < 10) {
                 lessThanTenTime = "0" + dateAndTime.getMinute();
@@ -180,9 +214,34 @@ public class HabitLog extends AppCompatActivity {
             textView.setTextSize((float) 20.0);
             textView.setTextColor(Color.parseColor("#000000"));
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            cardView.addView(textView);
-            cardView.setBackgroundColor(Color.parseColor("#d3d3d3"));
-            linearLayout.addView(cardView);
+            cardView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Button deleteButton = new Button(this);
+            deleteButton.setText("X");
+            deleteButton.setTextSize((float) 20.0);
+            deleteButton.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            deleteButton.setStateListAnimator(null);
+            deleteButton.setTextColor(Color.parseColor("#FF0000"));
+
+            deleteButton.setOnClickListener(v -> {
+                datesAndTimes.remove(dateAndTime);
+                linearLayout.removeView(cardView);
+            });
+
+            RelativeLayout.LayoutParams deleteButtonParams =
+                    new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams textLayout =
+                    new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            textLayout.addRule(RelativeLayout.CENTER_VERTICAL);
+            RelativeLayout.LayoutParams cardLayout =
+                    new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            cardLayout.setMargins(10,10,10, 10);
+            textLayout.setMargins(5, 0, 0, 0);
+            deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+            rl.addView(deleteButton, deleteButtonParams);
+            rl.addView(textView, textLayout);
+            cardView.addView(rl);
+            cardView.setRadius((float) 20.0);
+            linearLayout.addView(cardView, 0, cardLayout);
         }
     }
 }
