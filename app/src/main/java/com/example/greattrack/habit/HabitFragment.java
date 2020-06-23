@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -22,11 +23,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.greattrack.MyCardView;
 import com.example.greattrack.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -52,9 +55,8 @@ public class HabitFragment extends Fragment {
             habitList = getHabitList();
         }
         View view = inflater.inflate(R.layout.fragment_habit, container, false);
-        Button newHabitButton = view.findViewById(R.id.newHabitButton);
-        newHabitButton.setTextColor(Color.parseColor("#ffffff"));
-        newHabitButton.setTextSize((float) 15.0);
+        FloatingActionButton newHabitButton = view.findViewById(R.id.newHabitButton);
+        newHabitButton.setImageResource(R.drawable.ic_baseline_add_24);
         linearLayout = view.findViewById(R.id.linearLayoutInHabitScrollView);
         newHabitButton.setOnClickListener(v -> goToDialogue());
 
@@ -62,6 +64,7 @@ public class HabitFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onResume() {
         super.onResume();
@@ -85,6 +88,7 @@ public class HabitFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void createCards() {
         Log.d("TAG", "createCards method");
         Log.d("TAG", "linear layout has " + (linearLayout.getChildCount() - 1) + " card views");
@@ -147,20 +151,26 @@ public class HabitFragment extends Fragment {
                     RelativeLayout rl = new RelativeLayout(this.getContext());
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    RelativeLayout.LayoutParams infoButtonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams infoButtonParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams statButtonParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
                     Button deleteButton = new Button(this.getContext());
+                    Button statButton = new Button(this.getContext());
+                    statButton.setId(View.generateViewId());
+                    statButton.setBackgroundColor(Color.parseColor("#10cc3f"));
+                    statButton.setTextColor(Color.parseColor("#ffffff"));
+                    statButton.setText("Stats");
+                    statButton.setTextSize((float) 14.0);
                     deleteButton.setId(View.generateViewId());
                     Button infoButton = new Button(this.getContext());
                     infoButton.setId(View.generateViewId());
                     infoButton.setText("Log");
-                    infoButton.setTextColor(Color.parseColor("#ffa500"));
+                    infoButton.setTextColor(Color.parseColor("#ffffff"));
                     infoButton.setTextSize((float) 14.0);
-                    infoButton.setBackgroundColor(Color.parseColor("#f5f5f5"));
-                    deleteButton.setText("Delete");
-                    deleteButton.setTextColor(Color.parseColor("#ffa500"));
+                    deleteButton.setText("X");
+                    deleteButton.setTextColor(Color.parseColor("#ffffff"));
                     deleteButton.setTextSize((float) 14.0);
-                    deleteButton.setBackgroundColor(Color.parseColor("#f5f5f5"));
+                    deleteButton.setBackgroundColor(Color.parseColor("#FA0000"));
                     TextView text = new TextView(this.getContext());
                     text.setTextColor(Color.parseColor("#ffffff"));
                     text.setText(newHabit.habitName);
@@ -168,9 +178,10 @@ public class HabitFragment extends Fragment {
                     text.setId(View.generateViewId());
                     layoutParams.setMargins(10, 0, 0, 0);
                     layoutParams2.setMargins(10, 0, 0, 0);
-                    buttonLayoutParams.setMargins(8, 0,12,0);
-                    infoButtonParams.setMargins(8,0,8,0);
-
+                    buttonLayoutParams.setMargins(0, 0,0,0);
+                    infoButtonParams.setMargins(0,0,0,0);
+                    statButtonParams.setMargins(8, 0, 0 ,0);
+                    infoButton.setBackgroundColor(Color.parseColor("#0000EA"));
                     rl.addView(text, layoutParams);
                     layoutParams2.addRule(RelativeLayout.BELOW, text.getId());
                     rl.addView(freqText, layoutParams2);
@@ -179,7 +190,12 @@ public class HabitFragment extends Fragment {
                     rl.addView(deleteButton, buttonLayoutParams);
                     infoButtonParams.addRule(RelativeLayout.LEFT_OF, deleteButton.getId());
                     infoButtonParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                    statButtonParams.addRule(RelativeLayout.LEFT_OF, infoButton.getId());
                     rl.addView(infoButton, infoButtonParams);
+                    rl.addView(statButton, statButtonParams);
+                    deleteButton.setStateListAnimator(null);
+                    infoButton.setStateListAnimator(null);
+                    statButton.setStateListAnimator(null);
                     deleteButton.setOnClickListener(v -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
                         builder.setTitle("Delete Habit \"" + newHabit.habitName + "\"");
@@ -220,6 +236,7 @@ public class HabitFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void removeHabit(Habit habit, CardView cardView) {
         habitList.remove(habit);
         linearLayout.removeView(cardView);
