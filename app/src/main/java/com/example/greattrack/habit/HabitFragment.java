@@ -224,10 +224,11 @@ public class HabitFragment extends Fragment {
                         habitIndex = habitList.indexOf(newHabit);
                     });
 
+                    statButton.setOnClickListener(v -> {
+                        goToStats(newHabit);
+                    });
+
                     cardView.addView(rl);
-
-
-
                     linearLayout.addView(cardView);
                 }
             } else {
@@ -255,6 +256,13 @@ public class HabitFragment extends Fragment {
         Intent intent = new Intent(HabitFragment.this.getActivity(), HabitLog.class);
         intent.putExtra("SentHabit", habit);
         startActivityForResult(intent, 0);
+    }
+
+    private void goToStats(Habit habit) {
+        Log.d("TAG", "HabitFragment goToStats function");
+        Intent intent = new Intent(HabitFragment.this.getActivity(), HabitStats.class);
+        intent.putExtra("StatSentHabit", habit);
+        startActivity(intent);
     }
 
     public void saveHabitList(){
