@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorAccent"
         android:id="@+id/LogDoneButton"
-        android:text="DONE"
+        android:text="SAVE LOG"
         android:textColor="#FFFFFF"
         android:layout_centerHorizontal="true"
         android:textSize="8pt"
