@@ -124,7 +124,7 @@ public class HabitFragment extends Fragment {
                         mightBePlural = " time every ";
                     }
 
-                    switch (newHabit.freq) {
+                    switch (newHabit.getFreq()) {
                         case daily:
                             freqLabel = "day";
                             break;

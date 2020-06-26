@@ -102,11 +102,7 @@ public class HabitDialogueActivity extends AppCompatActivity {
             String durationText = durationSpinner.getSelectedItem().toString();
 
             HabitFrequency duration;
-            if (durationText.equals("Half Hour")) {
-                duration = HabitFrequency.halfHourly;
-            } else if (durationText.equals("Hour")) {
-                duration = HabitFrequency.hourly;
-            } else if (durationText.equals("Day")) {
+            if (durationText.equals("Day")) {
                 duration = HabitFrequency.daily;
             } else if (durationText.equals("Week")) {
                 duration = HabitFrequency.weekly;
