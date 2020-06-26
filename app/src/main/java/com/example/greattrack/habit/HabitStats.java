@@ -52,6 +52,8 @@ public class HabitStats extends AppCompatActivity {
         }
 
         CardView timesTodayCardView = new CardView(this);
+        timesTodayCardView.setRadius((float) 20.0);
+        timesTodayCardView.setCardBackgroundColor(Color.parseColor("#f78000"));
         RelativeLayout.LayoutParams timesTodayLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout InsideTimesTodayLayout = new RelativeLayout(this);
@@ -60,7 +62,7 @@ public class HabitStats extends AppCompatActivity {
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         currDayLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         currDay.setTextSize((float) 20.0);
-        currDay.setTextColor(Color.parseColor("#f78000"));
+        currDay.setTextColor(Color.parseColor("#ffffff"));
         if (timesToday != 1) {
             currDay.setText("Completed " + String.valueOf(timesToday) + " times today!");
         } else {
@@ -69,34 +71,41 @@ public class HabitStats extends AppCompatActivity {
 
         TextView goalText = new TextView(this);
         String freqLabel = "";
+        String timeOrTimes = "";
+        if (habit.getTimesDuringFreq() == 1) {
+            timeOrTimes = "time";
+        } else {
+            timeOrTimes = "times";
+        }
+
         switch (habit.getFreq()) {
             case daily:
-                freqLabel = " times today";
+                freqLabel = " " + timeOrTimes + " today";
                 break;
             case weekly:
-                freqLabel = " times this week";
+                freqLabel = " " + timeOrTimes + " this week";
                 break;
             case biweekly:
-                freqLabel = " times this fortnight";
+                freqLabel = " " + timeOrTimes + " this fortnight";
                 break;
             case monthly:
-                freqLabel = " times this month";
+                freqLabel = " " + timeOrTimes + " this month";
             case halfYearly:
-                freqLabel = " times this half-year";
+                freqLabel = " " + timeOrTimes + " this half-year";
             case yearly:
-                freqLabel = " times this year";
+                freqLabel = " " + timeOrTimes + " this year";
         }
 
         currDay.setId(View.generateViewId());
         goalText.setText("Goal: " + habit.timesDuringFreq + freqLabel);
         goalText.setTextSize((float) 17.0);
+        goalText.setTextColor(Color.parseColor("#fafafa"));
         RelativeLayout.LayoutParams goalTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         goalTextParams.addRule(RelativeLayout.BELOW, currDay.getId());
         goalTextParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         InsideTimesTodayLayout.addView(currDay, currDayLayoutParams);
         InsideTimesTodayLayout.addView(goalText, goalTextParams);
         timesTodayCardView.addView(InsideTimesTodayLayout);
-        timesTodayCardView.setRadius((float) 20.0);
 
         timesTodayLayoutParams.setMargins(10, 10, 10 ,10);
 
