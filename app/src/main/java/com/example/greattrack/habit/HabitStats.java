@@ -19,7 +19,11 @@ import androidx.cardview.widget.CardView;
 
 import com.example.greattrack.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HabitStats extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,18 +55,32 @@ public class HabitStats extends AppCompatActivity {
             }
         }
 
+        //Calculation stuff
+
+        Log.d("TAG", "calculation stuff");
+        List<HabitDateAndTime> habitLog = habit.getHabitLog();
+        List<justHabitDate> habitDates = new ArrayList<justHabitDate>();
+        for (HabitDateAndTime dateTime : habitLog) {
+            Log.d("TAG", "adding " + dateTime.getDay() + "/" + dateTime.getMonth() + "/"
+                    + dateTime.getYear()  + " to justHabitDate list");
+            justHabitDate temp = new justHabitDate(dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
+            habitDates.add(temp);
+        }
+        Map<justHabitDate, Integer> dateFreqMap = new HashMap<justHabitDate, Integer>();
+
         CardView timesTodayCardView = new CardView(this);
         timesTodayCardView.setRadius((float) 20.0);
-        timesTodayCardView.setCardBackgroundColor(Color.parseColor("#f78000"));
+        timesTodayCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
         RelativeLayout.LayoutParams timesTodayLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout InsideTimesTodayLayout = new RelativeLayout(this);
         TextView currDay = new TextView(this);
         RelativeLayout.LayoutParams currDayLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        currDayLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        currDayLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        currDayLayoutParams.setMargins(10, 0, 0, 0);
         currDay.setTextSize((float) 20.0);
-        currDay.setTextColor(Color.parseColor("#ffffff"));
+        currDay.setTextColor(Color.parseColor("#fafafa"));
         if (timesToday != 1) {
             currDay.setText("Completed " + String.valueOf(timesToday) + " times today!");
         } else {
@@ -102,14 +120,39 @@ public class HabitStats extends AppCompatActivity {
         goalText.setTextColor(Color.parseColor("#fafafa"));
         RelativeLayout.LayoutParams goalTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         goalTextParams.addRule(RelativeLayout.BELOW, currDay.getId());
-        goalTextParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        goalTextParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        goalTextParams.setMargins(10, 0, 0, 0);
         InsideTimesTodayLayout.addView(currDay, currDayLayoutParams);
         InsideTimesTodayLayout.addView(goalText, goalTextParams);
         timesTodayCardView.addView(InsideTimesTodayLayout);
 
-        timesTodayLayoutParams.setMargins(10, 10, 10 ,10);
+        timesTodayLayoutParams.setMargins(20, 10, 20 ,10);
 
         linearLayout.addView(timesTodayCardView, timesTodayLayoutParams);
 
+    }
+
+    private class justHabitDate {
+        int day;
+        int month;
+        int year;
+
+        private justHabitDate(int day, int month, int year) {
+            this.day = day;
+            this.month = month;
+            this.year = year;
+        }
+
+        private int getDay() {
+            return day;
+        }
+
+        private int getMonth() {
+            return month;
+        }
+
+        private int getYear() {
+            return year;
+        }
     }
 }

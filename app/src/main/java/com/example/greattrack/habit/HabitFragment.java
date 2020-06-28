@@ -119,9 +119,9 @@ public class HabitFragment extends Fragment {
                     Log.d("TAG", "adding habit named " + newHabit.habitName);
 
                     String freqLabel = "";
-                    String mightBePlural = " times every ";
+                    String mightBePlural = " times per ";
                     if (newHabit.timesDuringFreq == 1) {
-                        mightBePlural = " time every ";
+                        mightBePlural = " time per ";
                     }
 
                     switch (newHabit.getFreq()) {

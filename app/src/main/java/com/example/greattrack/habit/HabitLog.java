@@ -244,4 +244,5 @@ public class HabitLog extends AppCompatActivity {
             linearLayout.addView(cardView, 0, cardLayout);
         }
     }
+
 }
