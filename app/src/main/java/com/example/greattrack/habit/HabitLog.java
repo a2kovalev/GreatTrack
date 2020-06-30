@@ -180,6 +180,7 @@ public class HabitLog extends AppCompatActivity {
                 textLayout.addRule(RelativeLayout.CENTER_VERTICAL);
                 textLayout.setMargins(5, 0, 0, 0);
                 deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+                deleteButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 rl.addView(deleteButton, deleteButtonParams);
                 rl.addView(textView, textLayout);
                 cardView.addView(rl);

@@ -56,7 +56,6 @@ public class HabitStats extends AppCompatActivity {
         }
 
         //Calculation stuff
-
         Log.d("TAG", "calculation stuff");
         List<HabitDateAndTime> habitLog = habit.getHabitLog();
         List<justHabitDate> habitDates = new ArrayList<justHabitDate>();
@@ -68,6 +67,42 @@ public class HabitStats extends AppCompatActivity {
         }
         Map<justHabitDate, Integer> dateFreqMap = new HashMap<justHabitDate, Integer>();
 
+        Calendar weekStart = Calendar.getInstance();
+        weekStart.set(Calendar.HOUR_OF_DAY, 0);
+        weekStart.clear(Calendar.MINUTE);
+        weekStart.clear(Calendar.SECOND);
+        weekStart.clear(Calendar.MILLISECOND);
+        weekStart.set(Calendar.DAY_OF_WEEK, weekStart.getFirstDayOfWeek());
+        Log.d("TAG", "start of week: " + weekStart.getTime());
+
+        Calendar currTime = calendar.getInstance();
+        Log.d("TAG", "current day: " + currTime.getTime());
+
+        int timesThisWeek = 0;
+        for(HabitDateAndTime dateAndTime : habitLog) {
+            Calendar tempDate = Calendar.getInstance();
+            tempDate.clear(Calendar.HOUR_OF_DAY);
+            tempDate.clear(Calendar.MINUTE);
+            tempDate.clear(Calendar.SECOND);
+            tempDate.clear(Calendar.MILLISECOND);
+            tempDate.set(Calendar.HOUR_OF_DAY, dateAndTime.getHour());
+            tempDate.set(Calendar.MINUTE, dateAndTime.getMinute());
+            tempDate.set(Calendar.DAY_OF_MONTH, dateAndTime.getDay());
+            tempDate.set(Calendar.MONTH, dateAndTime.getMonth());
+            tempDate.set(Calendar.YEAR, dateAndTime.getYear());
+            Log.d("TAG", "tempDate time: " + tempDate.getTime());
+
+            boolean inRange = tempDate.after(weekStart) && tempDate.before(currTime);
+            Log.d("TAG", "log time is in range: " + inRange);
+
+            if (inRange == true) {
+                ++timesThisWeek;
+            }
+        }
+        Log.d("TAG", "Times completed this week: " + timesThisWeek);
+
+        //Display stuff
+        //begin times today card
         CardView timesTodayCardView = new CardView(this);
         timesTodayCardView.setRadius((float) 20.0);
         timesTodayCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
@@ -118,7 +153,8 @@ public class HabitStats extends AppCompatActivity {
         goalText.setText("Goal: " + habit.timesDuringFreq + freqLabel);
         goalText.setTextSize((float) 17.0);
         goalText.setTextColor(Color.parseColor("#fafafa"));
-        RelativeLayout.LayoutParams goalTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams goalTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         goalTextParams.addRule(RelativeLayout.BELOW, currDay.getId());
         goalTextParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         goalTextParams.setMargins(10, 0, 0, 0);
@@ -129,7 +165,18 @@ public class HabitStats extends AppCompatActivity {
         timesTodayLayoutParams.setMargins(20, 10, 20 ,10);
 
         linearLayout.addView(timesTodayCardView, timesTodayLayoutParams);
+        //end times today card
 
+        //begin times this week card
+        CardView timesThisWeekCardView = new CardView(this);
+        RelativeLayout.LayoutParams thisWeekCardParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        timesThisWeekCardView.setRadius((float) 20.0);
+        timesThisWeekCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
+        TextView thisWeekTextView = new TextView(this);
+        thisWeekTextView.setText("You have done this " + timesThisWeek + " times this week!");
+        timesThisWeekCardView.addView(thisWeekTextView);
+        linearLayout.addView(timesThisWeekCardView, thisWeekCardParams);
     }
 
     private class justHabitDate {
