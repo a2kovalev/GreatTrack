@@ -19,6 +19,8 @@ import androidx.cardview.widget.CardView;
 
 import com.example.greattrack.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,6 +41,8 @@ public class HabitStats extends AppCompatActivity {
         Intent intent = getIntent();
         Habit habit = (Habit) intent.getSerializableExtra("StatSentHabit");
         title.setText("Stats for " + "\"" + habit.habitName + "\"");
+        titleCardView.setBackgroundColor(Color.TRANSPARENT);
+        titleCardView.setCardElevation(0);
 
         LinearLayout linearLayout = findViewById(R.id.StatHabitLinearLayout);
 
@@ -50,7 +54,7 @@ public class HabitStats extends AppCompatActivity {
         int timesToday = 0;
 
         for (HabitDateAndTime dateAndTime : habit.getHabitLog()) {
-            if (dateAndTime.getDay() == day && dateAndTime.getMonth() == month && dateAndTime.getYear() == year) {
+            if (dateAndTime.getDay() == day && (dateAndTime.getMonth() - 1) == month && dateAndTime.getYear() == year) {
                 ++timesToday;
             }
         }
@@ -88,7 +92,7 @@ public class HabitStats extends AppCompatActivity {
             tempDate.set(Calendar.HOUR_OF_DAY, dateAndTime.getHour());
             tempDate.set(Calendar.MINUTE, dateAndTime.getMinute());
             tempDate.set(Calendar.DAY_OF_MONTH, dateAndTime.getDay());
-            tempDate.set(Calendar.MONTH, dateAndTime.getMonth());
+            tempDate.set(Calendar.MONTH, (dateAndTime.getMonth() - 1));
             tempDate.set(Calendar.YEAR, dateAndTime.getYear());
             Log.d("TAG", "tempDate time: " + tempDate.getTime());
 
@@ -102,6 +106,51 @@ public class HabitStats extends AppCompatActivity {
         Log.d("TAG", "Times completed this week: " + timesThisWeek);
 
         //Display stuff
+
+        //Goal Completed stuff
+        if((habit.getFreq() == HabitFrequency.daily && timesToday == habit.getTimesDuringFreq())
+                || (habit.getFreq() == HabitFrequency.weekly && timesThisWeek == habit.getTimesDuringFreq())) {
+            if (timesToday == habit.getTimesDuringFreq()) {
+                CardView dailyGoalCardView = new CardView(this);
+                RelativeLayout rl = new RelativeLayout(this);
+                RelativeLayout.LayoutParams dailyGoalCardParams =
+                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                TextView goalReached = new TextView(this);
+                RelativeLayout.LayoutParams goalReachedParams =
+                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                if(habit.getFreq() == HabitFrequency.daily) {
+                    goalReached.setText("DAILY GOAL REACHED");
+                }
+                if (habit.getFreq() == HabitFrequency.weekly) {
+                    goalReached.setText("WEEKLY GOAL REACHED");
+                }
+                goalReached.setId(View.generateViewId());
+
+                TextView goodJob = new TextView(this);
+                goodJob.setText("Great Job!");
+                goodJob.setTextSize((float) 22.0);
+                goodJob.setTextColor(Color.parseColor("#ffffff"));
+                RelativeLayout.LayoutParams goodJobParams =
+                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                goodJobParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                goodJobParams.addRule(RelativeLayout.BELOW, goalReached.getId());
+
+                goalReachedParams.setMargins(10, 10, 10, 10);
+                goalReached.setTextSize((float) 25.0);
+                goalReached.setTextColor(Color.parseColor("#ffffff"));
+                dailyGoalCardView.setRadius((float) 20.0);
+                dailyGoalCardParams.setMargins(20, 10, 20, 10);
+                goalReachedParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                rl.addView(goalReached, goalReachedParams);
+                rl.addView(goodJob, goodJobParams);
+                dailyGoalCardView.addView(rl);
+                dailyGoalCardView.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+                dailyGoalCardParams.setMargins(10, 10, 10, 10);
+                linearLayout.addView(dailyGoalCardView, 1, dailyGoalCardParams);
+            }
+        }
+
+
         //begin times today card
         CardView timesTodayCardView = new CardView(this);
         timesTodayCardView.setRadius((float) 20.0);
@@ -174,8 +223,14 @@ public class HabitStats extends AppCompatActivity {
         timesThisWeekCardView.setRadius((float) 20.0);
         timesThisWeekCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
         TextView thisWeekTextView = new TextView(this);
+        RelativeLayout.LayoutParams thisWeekTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        thisWeekTextParams.setMargins(10, 0, 0, 0);
+        thisWeekCardParams.setMargins(20, 10, 20 ,10);
         thisWeekTextView.setText("You have done this " + timesThisWeek + " times this week!");
-        timesThisWeekCardView.addView(thisWeekTextView);
+        thisWeekTextView.setTextSize((float) 20.0);
+        thisWeekTextView.setTextColor(Color.parseColor("#fafafa"));
+        timesThisWeekCardView.addView(thisWeekTextView, thisWeekTextParams);
         linearLayout.addView(timesThisWeekCardView, thisWeekCardParams);
     }
 

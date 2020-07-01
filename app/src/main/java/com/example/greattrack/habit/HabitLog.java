@@ -110,7 +110,7 @@ public class HabitLog extends AppCompatActivity {
                     DatePicker datePicker = (DatePicker) customLayout.findViewById(R.id.logDatePicker);
 
                     dateTime[0] = new HabitDateAndTime(timePicker.getHour(), timePicker.getMinute(),
-                            datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                            datePicker.getYear(), (datePicker.getMonth() + 1), datePicker.getDayOfMonth());
                     datesAndTimes.add(dateTime[0]);
                     displayLog();
                     dialog.dismiss();
