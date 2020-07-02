@@ -145,6 +145,8 @@ public class HabitLog extends AppCompatActivity {
                 textView.setId(View.generateViewId());
                 CardView cardView = new CardView(this);
                 RelativeLayout rl = new RelativeLayout(this);
+                RelativeLayout.LayoutParams rlParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
                 String lessThanTenTime = "";
                 if (dateAndTime.getMinute() < 10) {
                     lessThanTenTime = "0" + dateAndTime.getMinute();
@@ -171,7 +173,7 @@ public class HabitLog extends AppCompatActivity {
                 });
 
                 RelativeLayout.LayoutParams deleteButtonParams =
-                        new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        new RelativeLayout.LayoutParams(60, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 RelativeLayout.LayoutParams textLayout =
                         new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 RelativeLayout.LayoutParams cardLayout =
@@ -179,11 +181,12 @@ public class HabitLog extends AppCompatActivity {
                 cardLayout.setMargins(10,10,10, 10);
                 textLayout.addRule(RelativeLayout.CENTER_VERTICAL);
                 textLayout.setMargins(5, 0, 0, 0);
-                deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+                //deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
                 deleteButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                deleteButtonParams.setMargins(10, 10, 30, 10);
                 rl.addView(deleteButton, deleteButtonParams);
                 rl.addView(textView, textLayout);
-                cardView.addView(rl);
+                cardView.addView(rl, rlParams);
                 cardView.setRadius((float) 20.0);
                 linearLayout.addView(cardView, 0, cardLayout);
             }
@@ -203,6 +206,8 @@ public class HabitLog extends AppCompatActivity {
             textView.setId(View.generateViewId());
             CardView cardView = new CardView(this);
             RelativeLayout rl = new RelativeLayout(this);
+            RelativeLayout.LayoutParams rlParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
             String lessThanTenTime = "";
             if (dateAndTime.getMinute() < 10) {
                 lessThanTenTime = "0" + dateAndTime.getMinute();
@@ -229,7 +234,7 @@ public class HabitLog extends AppCompatActivity {
             });
 
             RelativeLayout.LayoutParams deleteButtonParams =
-                    new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    new RelativeLayout.LayoutParams(60, RelativeLayout.LayoutParams.WRAP_CONTENT);
             RelativeLayout.LayoutParams textLayout =
                     new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             textLayout.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -237,10 +242,12 @@ public class HabitLog extends AppCompatActivity {
                     new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             cardLayout.setMargins(10,10,10, 10);
             textLayout.setMargins(5, 0, 0, 0);
-            deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+            //deleteButtonParams.addRule(RelativeLayout.RIGHT_OF, textView.getId());
+            deleteButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            deleteButtonParams.setMargins(10, 10, 30, 10);
             rl.addView(deleteButton, deleteButtonParams);
             rl.addView(textView, textLayout);
-            cardView.addView(rl);
+            cardView.addView(rl, rlParams);
             cardView.setRadius((float) 20.0);
             linearLayout.addView(cardView, 0, cardLayout);
         }

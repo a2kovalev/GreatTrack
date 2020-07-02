@@ -6,7 +6,6 @@
     <string-array name="frequencies">
         <item>Day</item>
         <item>Week</item>
-        <item>2 Weeks</item>
         <item>Month</item>
         <item>6 Months</item>
         <item>Year</item>

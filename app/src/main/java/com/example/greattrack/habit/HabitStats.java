@@ -46,6 +46,10 @@ public class HabitStats extends AppCompatActivity {
 
         LinearLayout linearLayout = findViewById(R.id.StatHabitLinearLayout);
 
+
+        //daily calculation
+        Log.d("TAG", "calculation stuff");
+
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
@@ -59,8 +63,6 @@ public class HabitStats extends AppCompatActivity {
             }
         }
 
-        //Calculation stuff
-        Log.d("TAG", "calculation stuff");
         List<HabitDateAndTime> habitLog = habit.getHabitLog();
         List<justHabitDate> habitDates = new ArrayList<justHabitDate>();
         for (HabitDateAndTime dateTime : habitLog) {
@@ -82,6 +84,7 @@ public class HabitStats extends AppCompatActivity {
         Calendar currTime = calendar.getInstance();
         Log.d("TAG", "current day: " + currTime.getTime());
 
+        //weekly calculation
         int timesThisWeek = 0;
         for(HabitDateAndTime dateAndTime : habitLog) {
             Calendar tempDate = Calendar.getInstance();
@@ -105,12 +108,34 @@ public class HabitStats extends AppCompatActivity {
         }
         Log.d("TAG", "Times completed this week: " + timesThisWeek);
 
+        //monthly calculation
+        int timesThisMonth = 0;
+        Calendar cal = Calendar.getInstance();
+        int currMonth = cal.get(Calendar.MONTH) + 1;
+        Log.d("TAG", "current month " + currMonth);
+        for(HabitDateAndTime dateAndTime : habitLog) {
+            if (dateAndTime.getMonth() == currMonth) {
+                ++timesThisMonth;
+            }
+        }
+        Log.d("TAG", "Times completed this month: " + timesThisMonth);
+
+        //yearly calculation
+        int timesThisYear = 0;
+        int currYear = cal.get(Calendar.YEAR);
+        Log.d("TAG", "current year " + currYear);
+        for(HabitDateAndTime dateAndTime : habitLog) {
+            if (dateAndTime.getYear() == currYear) {
+                ++timesThisYear;
+            }
+        }
+        Log.d("TAG", "Times completed this year: " + timesThisYear);
+
         //Display stuff
 
         //Goal Completed stuff
         if((habit.getFreq() == HabitFrequency.daily && timesToday == habit.getTimesDuringFreq())
                 || (habit.getFreq() == HabitFrequency.weekly && timesThisWeek == habit.getTimesDuringFreq())) {
-            if (timesToday == habit.getTimesDuringFreq()) {
                 CardView dailyGoalCardView = new CardView(this);
                 RelativeLayout rl = new RelativeLayout(this);
                 RelativeLayout.LayoutParams dailyGoalCardParams =
@@ -147,7 +172,6 @@ public class HabitStats extends AppCompatActivity {
                 dailyGoalCardView.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
                 dailyGoalCardParams.setMargins(10, 10, 10, 10);
                 linearLayout.addView(dailyGoalCardView, 1, dailyGoalCardParams);
-            }
         }
 
 
@@ -232,6 +256,40 @@ public class HabitStats extends AppCompatActivity {
         thisWeekTextView.setTextColor(Color.parseColor("#fafafa"));
         timesThisWeekCardView.addView(thisWeekTextView, thisWeekTextParams);
         linearLayout.addView(timesThisWeekCardView, thisWeekCardParams);
+
+        //being times this month card
+        CardView timesThisMonthCardView = new CardView(this);
+        RelativeLayout.LayoutParams thisMonthCardParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        timesThisMonthCardView.setRadius((float) 20.0);
+        timesThisMonthCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
+        TextView thisMonthTextView = new TextView(this);
+        RelativeLayout.LayoutParams thisMonthTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        thisMonthTextParams.setMargins(10, 0, 0, 0);
+        thisMonthCardParams.setMargins(20, 10, 20 ,10);
+        thisMonthTextView.setText("This month, you have done this " + timesThisMonth + " times!");
+        thisMonthTextView.setTextSize((float) 20.0);
+        thisMonthTextView.setTextColor(Color.parseColor("#fafafa"));
+        timesThisMonthCardView.addView(thisMonthTextView, thisMonthTextParams);
+        linearLayout.addView(timesThisMonthCardView, thisMonthCardParams);
+
+        //being times this year card
+        CardView timesThisYearCardView = new CardView(this);
+        RelativeLayout.LayoutParams thisYearCardParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        timesThisYearCardView.setRadius((float) 20.0);
+        timesThisYearCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
+        TextView thisYearTextView = new TextView(this);
+        RelativeLayout.LayoutParams thisYearTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        thisYearTextParams.setMargins(10, 0, 0, 0);
+        thisYearCardParams.setMargins(20, 10, 20 ,10);
+        thisYearTextView.setText("So far in " + currYear + ", you have done this " + timesThisYear + " times!");
+        thisYearTextView.setTextSize((float) 20.0);
+        thisYearTextView.setTextColor(Color.parseColor("#fafafa"));
+        timesThisYearCardView.addView(thisYearTextView, thisYearTextParams);
+        linearLayout.addView(timesThisYearCardView, thisYearCardParams);
     }
 
     private class justHabitDate {
