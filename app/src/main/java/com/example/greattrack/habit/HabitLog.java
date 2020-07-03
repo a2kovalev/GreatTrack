@@ -131,6 +131,7 @@ public class HabitLog extends AppCompatActivity {
             Intent data = new Intent();
             data.putParcelableArrayListExtra("dateTimes", datesAndTimes);
             setResult(RESULT_OK, data);
+            habit.sortHabitLog();
             finish();
         });
 

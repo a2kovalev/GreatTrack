@@ -2,7 +2,11 @@ package com.example.greattrack.habit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 enum HabitFrequency {
     daily, weekly, biweekly, monthly, halfYearly, yearly
@@ -48,6 +52,40 @@ public class Habit implements Serializable {
 
     public void removeFromLog(HabitDateAndTime dateAndTime) {
         HabitLog.remove(dateAndTime);
+    }
+
+    public void sortHabitLog() {
+        int n = HabitLog.size();
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (HabitLog.get(j).getYear() > HabitLog.get(j + 1).getYear()) {
+                    HabitDateAndTime temp = HabitLog.get(j);
+                    HabitLog.set(j, HabitLog.get(j + 1));
+                    HabitLog.set(j + 1, temp);
+                }
+            }
+        }
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if ((HabitLog.get(j).getYear() == HabitLog.get(j+1).getYear()) && (HabitLog.get(j).getMonth() > HabitLog.get(j + 1).getMonth())) {
+                    HabitDateAndTime temp = HabitLog.get(j);
+                    HabitLog.set(j, HabitLog.get(j + 1));
+                    HabitLog.set(j + 1, temp);
+                }
+            }
+        }
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if ((HabitLog.get(j).getYear() == HabitLog.get(j+1).getYear() && HabitLog.get(j).getMonth() == HabitLog.get(j + 1).getMonth())
+                    && (HabitLog.get(j).getDay() > HabitLog.get(j + 1).getDay())) {
+                    HabitDateAndTime temp = HabitLog.get(j);
+                    HabitLog.set(j, HabitLog.get(j + 1));
+                    HabitLog.set(j + 1, temp);
+                }
+            }
+        }
     }
 
     public List<HabitDateAndTime> getHabitLog () {

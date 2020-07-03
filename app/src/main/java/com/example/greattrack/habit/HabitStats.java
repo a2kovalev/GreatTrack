@@ -131,6 +131,11 @@ public class HabitStats extends AppCompatActivity {
         }
         Log.d("TAG", "Times completed this year: " + timesThisYear);
 
+        //completion calculation
+        if(habit.getFreq() == HabitFrequency.daily) {
+
+        }
+
         //Display stuff
 
         //Goal Completed stuff
