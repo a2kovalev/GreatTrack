@@ -133,6 +133,22 @@ public class HabitStats extends AppCompatActivity {
 
         //completion calculation
         if(habit.getFreq() == HabitFrequency.daily) {
+            HabitDateAndTime startLog = habitLog.get(0);
+            Calendar oldBoi = Calendar.getInstance();
+            Calendar newBoi = Calendar.getInstance();
+
+            oldBoi.clear(Calendar.HOUR_OF_DAY);
+            oldBoi.clear(Calendar.MINUTE);
+            oldBoi.clear(Calendar.SECOND);
+            oldBoi.clear(Calendar.MILLISECOND);
+            oldBoi.set(Calendar.YEAR, startLog.getYear());
+            oldBoi.set(Calendar.MONTH, startLog.getMonth());
+            oldBoi.set(Calendar.DAY_OF_MONTH, startLog.getDay());
+
+            Log.d("TAG", "oldboi year, month, day: " + oldBoi.get(Calendar.YEAR) + ", " +
+                    oldBoi.get(Calendar.MONTH) + ", " + oldBoi.get(Calendar.DAY_OF_MONTH));
+
+            //find days between oldBoi and newBoi and check which ones have completed habit
 
         }
 
