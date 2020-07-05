@@ -219,7 +219,22 @@ public class HabitFragment extends Fragment {
                     });
 
                     statButton.setOnClickListener(v -> {
-                        goToStats(newHabit);
+                        if (newHabit.getHabitLog().size() > 0) {
+                            goToStats(newHabit);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                            builder.setTitle("No statistics to show");
+                            builder.setMessage("To start viewing stats, go to the log, and log this habit!");
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
                     });
 
                     cardView.addView(rl);

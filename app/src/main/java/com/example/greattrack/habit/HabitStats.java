@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class HabitStats extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,6 @@ public class HabitStats extends AppCompatActivity {
             justHabitDate temp = new justHabitDate(dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
             habitDates.add(temp);
         }
-        Map<justHabitDate, Integer> dateFreqMap = new HashMap<justHabitDate, Integer>();
 
         Calendar weekStart = Calendar.getInstance();
         weekStart.set(Calendar.HOUR_OF_DAY, 0);
@@ -134,17 +134,38 @@ public class HabitStats extends AppCompatActivity {
         }
         Log.d("TAG", "Times completed this year: " + timesThisYear);
 
+        HashMap<justHabitDate, Integer> timesDoneOnDaysMap = new HashMap<justHabitDate, Integer>();
+        ArrayList<justHabitDate> onlyTheDates = new ArrayList<>();
+        HashSet<justHabitDate> justDateSet = new HashSet<>();
+
+        for (HabitDateAndTime dateAndTime : habitLog) {
+            justHabitDate justDate = new justHabitDate(dateAndTime.getDay(), dateAndTime.getMonth(), dateAndTime.getYear());
+            onlyTheDates.add(justDate);
+            justDateSet.add(justDate);
+        }
+        Log.d("TAG", "sizes of the list and the set: " + onlyTheDates.size() + ", " + justDateSet.size());
+
+        for (justHabitDate justDate : justDateSet) {
+            timesDoneOnDaysMap.put(justDate, 0);
+        }
+
+        for (justHabitDate justDate : onlyTheDates) {
+            timesDoneOnDaysMap.put(justDate, timesDoneOnDaysMap.get(justDate) + 1);
+        }
+        Log.d("TAG", "TimesDoneOnDays map: " + timesDoneOnDaysMap);
+
         //completion calculation and adding to stats
+        HabitDateAndTime startLog = habitLog.get(0);
+        LocalDate newBoi = LocalDate.now();
+
+        LocalDate oldBoi = LocalDate.of(startLog.getYear(), startLog.getMonth(), startLog.getDay());
+
+        Log.d("TAG", "oldBoi year, month, day: " + oldBoi.getYear() + ", " +
+                oldBoi.getMonth() + ", " + oldBoi.getDayOfMonth());
+        Log.d("TAG", "current (newBoi) date: " + newBoi.getYear() + ", " + newBoi.getMonth() + ", " + newBoi.getDayOfMonth());
+
+
         if(habit.getFreq() == HabitFrequency.daily) {
-            HabitDateAndTime startLog = habitLog.get(0);
-            LocalDate newBoi = LocalDate.now();
-
-            LocalDate oldBoi = LocalDate.of(startLog.getYear(), startLog.getMonth(), startLog.getDay());
-
-            Log.d("TAG", "oldBoi year, month, day: " + oldBoi.getYear() + ", " +
-                    oldBoi.getMonth() + ", " + oldBoi.getDayOfMonth());
-            Log.d("TAG", "current (newBoi) date: " + newBoi.getYear() + ", " + newBoi.getMonth() + ", " + newBoi.getDayOfMonth());
-
             //find days between oldBoi and newBoi and check which ones have completed habit
             HashSet<LocalDate> intervalDates = new HashSet<LocalDate>();
             HashSet<LocalDate> datesWhenHabitIsDone = new HashSet<LocalDate>();
@@ -153,7 +174,10 @@ public class HabitStats extends AppCompatActivity {
             }
             for (HabitDateAndTime dateAndTime : habitLog) {
                 LocalDate temp = LocalDate.of(dateAndTime.getYear(), dateAndTime.getMonth(), dateAndTime.getDay());
-                datesWhenHabitIsDone.add(temp);
+                justHabitDate justTemp = new justHabitDate(dateAndTime.getDay(), dateAndTime.getMonth(), dateAndTime.getYear());
+                if (timesDoneOnDaysMap.get(justTemp) >= habit.getTimesDuringFreq()) {
+                    datesWhenHabitIsDone.add(temp);
+                }
             }
             Log.d("TAG", "total dates in interval: " + intervalDates.size());
             Log.d("TAG", "dates when habit is done: " + datesWhenHabitIsDone.size());
@@ -206,8 +230,9 @@ public class HabitStats extends AppCompatActivity {
             completionCardViewRelativeLayout.addView(ofTheTimeView, ofTheTimeParams);
             completionCardView.addView(completionCardViewRelativeLayout);
             linearLayout.addView(completionCardView, 1, completionCardViewParams);
-
         }
+
+        //NOW IMPLEMENT WEEKLY, MONTHLY, AND YEARLY STUFF
 
         //Display stuff
 
@@ -394,6 +419,26 @@ public class HabitStats extends AppCompatActivity {
 
         private int getYear() {
             return year;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(day, month, year);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+
+            if(!(obj instanceof justHabitDate)) {
+                return false;
+            }
+
+            justHabitDate justDate = (justHabitDate) obj;
+
+            return (this.day == justDate.day) && (this.month == justDate.month) && (this.year == justDate.year);
         }
     }
 }
