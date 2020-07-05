@@ -108,8 +108,6 @@ public class HabitDialogueActivity extends AppCompatActivity {
                 duration = HabitFrequency.weekly;
             } else if (durationText.equals("Month")) {
                 duration = HabitFrequency.monthly;
-            } else if (durationText.equals("6 Months")) {
-                duration = HabitFrequency.halfYearly;
             } else {
                 duration = HabitFrequency.yearly;
             }

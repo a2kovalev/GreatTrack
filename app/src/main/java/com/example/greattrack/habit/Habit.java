@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 enum HabitFrequency {
-    daily, weekly, biweekly, monthly, halfYearly, yearly
+    daily, weekly, monthly, yearly
 }
 
 public class Habit implements Serializable {

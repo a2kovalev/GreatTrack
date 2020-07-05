@@ -68,14 +68,8 @@ public class HabitLog extends AppCompatActivity {
             case weekly:
                 freqLabel = "week";
                 break;
-            case biweekly:
-                freqLabel = "2 weeks";
-                break;
             case monthly:
                 freqLabel = "month";
-                break;
-            case halfYearly:
-                freqLabel = "6 months";
                 break;
             case yearly:
                 freqLabel = "year";

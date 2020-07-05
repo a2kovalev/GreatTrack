@@ -134,9 +134,6 @@ public class HabitFragment extends Fragment {
                         case monthly:
                             freqLabel = "month";
                             break;
-                        case halfYearly:
-                            freqLabel = "6 months";
-                            break;
                         case yearly:
                             freqLabel = "year";
                             break;
