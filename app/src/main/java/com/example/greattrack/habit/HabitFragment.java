@@ -193,7 +193,7 @@ public class HabitFragment extends Fragment {
                     deleteButton.setOnClickListener(v -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
                         builder.setTitle("Delete Habit \"" + newHabit.habitName + "\"");
-                        builder.setMessage("Are you sure that you would like to delete this habit?");
+                        builder.setMessage("Are you sure that you would like to delete this habit? This cannot be undone.");
 
                         builder.setPositiveButton("Yes, delete \"" + newHabit.habitName + "\"", new DialogInterface.OnClickListener() {
                             @Override

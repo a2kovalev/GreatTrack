@@ -21,6 +21,7 @@ import com.example.greattrack.R;
 
 import org.w3c.dom.Text;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -231,6 +232,34 @@ public class HabitStats extends AppCompatActivity {
             completionCardView.addView(completionCardViewRelativeLayout);
             linearLayout.addView(completionCardView, 1, completionCardViewParams);
         }
+
+        int iterationNum = 0;
+        int numWeeks = 0;
+        int weeksComplete = 0;
+        oldBoi = LocalDate.of(startLog.getYear(), startLog.getMonth(), startLog.getDay());
+        LocalDate today = LocalDate.now();
+        LocalDate startOfFirstWeek = oldBoi.with(DayOfWeek.MONDAY);
+        Log.d("TAG", "Start of the first week of habit: " + startOfFirstWeek);
+
+        if (habit.getFreq() == HabitFrequency.weekly) {
+            for (LocalDate date = startOfFirstWeek; date.isBefore(today.plusDays(1)); date = date.plusWeeks(1)) {
+                LocalDate endOfWeek = date.plusDays(6);
+                int timesThatWeek = 0;
+                for(LocalDate dailyDate = date; dailyDate.isBefore(endOfWeek.plusDays(1)); dailyDate = dailyDate.plusDays(1)) {
+                    justHabitDate checkThisDate = new justHabitDate(dailyDate.getDayOfMonth(),
+                            dailyDate.getMonthValue(), dailyDate.getYear());
+                    //Log.d("TAG", "date to check: " + checkThisDate.getMonth() + "/" + checkThisDate.getDay());
+                    if (onlyTheDates.contains(checkThisDate)) {
+                        ++timesThatWeek;
+                    }
+                }
+                if (timesThatWeek == habit.getTimesDuringFreq()) {
+                    ++weeksComplete;
+                }
+            }
+        }
+
+        Log.d("TAG", "weeks complete: " + weeksComplete);
 
         //NOW IMPLEMENT WEEKLY, MONTHLY, AND YEARLY STUFF
 
