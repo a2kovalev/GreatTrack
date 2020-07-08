@@ -16,12 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".habit.HabitDialogueActivity">
+        <activity android:name=".habit.HabitDialogueActivity"
+            android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".habit.HabitLog">
-
+        <activity android:name=".habit.HabitLog"
+            android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".habit.HabitStats">
+        <activity android:name=".habit.HabitStats"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

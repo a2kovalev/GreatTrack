@@ -6,6 +6,7 @@
     android:background="#f5f5f5">
 
 <RelativeLayout
+    android:id="@+id/dialogueRelativeLayout"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_centerInParent="true"

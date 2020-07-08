@@ -8,12 +8,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
@@ -28,6 +31,7 @@ public class HabitDialogueActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("TAG", "In OnCreate of HabitDialogue");
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.fragment_dialogue_habit);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         getSupportActionBar().setTitle("Add a New Habit");
@@ -100,26 +104,39 @@ public class HabitDialogueActivity extends AppCompatActivity {
             /*boolean remindersOn = remindersOnSwitch.isChecked(); */
             boolean remindersOn = false;
             String durationText = durationSpinner.getSelectedItem().toString();
+            if (!durationText.equals("Select")) {
+                HabitFrequency duration;
+                if (durationText.equals("Day")) {
+                    duration = HabitFrequency.daily;
+                } else if (durationText.equals("Week")) {
+                    duration = HabitFrequency.weekly;
+                } else if (durationText.equals("Month")) {
+                    duration = HabitFrequency.monthly;
+                } else {
+                    duration = HabitFrequency.yearly;
+                }
 
-            HabitFrequency duration;
-            if (durationText.equals("Day")) {
-                duration = HabitFrequency.daily;
-            } else if (durationText.equals("Week")) {
-                duration = HabitFrequency.weekly;
-            } else if (durationText.equals("Month")) {
-                duration = HabitFrequency.monthly;
+                Log.d("TAG", "Clicked add habit button");
+                Habit newHabit = new Habit(habitName, frequency, remindersOn, duration);
+                HabitFragment.habitList.add(newHabit);
+
+                if (reminderTime[0] != -1 && reminderTime[1] != -1) {
+                    HabitFragment.remindersOnHabits.put(newHabit, reminderTime);
+                }
+
+                finish();
             } else {
-                duration = HabitFrequency.yearly;
+                TextView selectWarning = new TextView(this);
+                RelativeLayout.LayoutParams selectParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                selectWarning.setText("Please select duration for habit");
+                selectWarning.setTextColor(Color.parseColor("#FF0000"));
+                selectWarning.setTextSize((float) 16.0);
+                selectParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                selectParams.addRule(RelativeLayout.ABOVE, createHabitButton.getId());
+                RelativeLayout relativeLayout = findViewById(R.id.dialogueRelativeLayout);
+                relativeLayout.addView(selectWarning, selectParams);
             }
-
-            Log.d("TAG", "Clicked add habit button");
-            Habit newHabit = new Habit(habitName, frequency, remindersOn, duration);
-            HabitFragment.habitList.add(newHabit);
-
-            if (reminderTime[0] != -1 && reminderTime[1] != -1) {
-                HabitFragment.remindersOnHabits.put(newHabit, reminderTime);
-            }
-
-            finish();});
+        });
     }
 }
