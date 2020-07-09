@@ -38,7 +38,7 @@
         android:layout_toRightOf="@+id/habitFrequency"/>
 
     <Spinner
-        android:id="@+id/freqSpinner"
+        android:id="@+id/editFreqSpinner"
         android:background="#FFFFFF"
         android:layout_width="99dp"
         android:layout_height="wrap_content"

@@ -25,6 +25,9 @@
         <activity android:name=".habit.HabitStats"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".habit.editHabit"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -239,10 +239,31 @@ public class HabitFragment extends Fragment {
                         }
                     });
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
                     cardView.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
                             Log.d("TAG", "long click detected");
+                            builder.setTitle("Edit habit");
+                            builder.setMessage("Would you like to edit this habit?");
+
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    goToEditHabit(newHabit);
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+
                             return true;
                         }
                     });
@@ -267,6 +288,13 @@ public class HabitFragment extends Fragment {
     private void goToDialogue() {
         Log.d("TAG", "HabitFragment goToDialogue");
         Intent intent = new Intent(HabitFragment.this.getActivity(), HabitDialogueActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToEditHabit(Habit habit) {
+        Log.d("TAG", "go to Edit Habit");
+        Intent intent = new Intent(HabitFragment.this.getActivity(), editHabit.class);
+        intent.putExtra("HabitToEdit", habit);
         startActivity(intent);
     }
 
