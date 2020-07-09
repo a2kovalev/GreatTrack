@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TimePicker
-        android:id="@+id/dailyHabitTimePicker"
-        android:timePickerMode="spinner"
-        android:layout_width="match_parent"
+<RelativeLayout
+    android:id="@+id/dialogueRelativeLayout"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f5f5f5">
+
+    <EditText
+        android:id="@+id/habitName"
+        android:selectAllOnFocus="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Habit Name"/>
+
+    <EditText
+        android:id="@+id/habitFrequency"
+        android:selectAllOnFocus="true"
+        android:layout_width="82dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/habitName"
+        android:layout_alignLeft="@+id/habitName"
+        android:layout_marginTop="52dp"
+        android:text="0"
+        android:inputType="number"/>
+    <TextView
+        android:id="@+id/timesPer"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:text="times per"
+        android:layout_alignBottom="@+id/habitFrequency"
+        android:layout_below="@+id/habitName"
+        android:layout_toRightOf="@+id/habitFrequency"/>
+
+    <Spinner
+        android:id="@+id/freqSpinner"
+        android:background="#FFFFFF"
+        android:layout_width="99dp"
         android:layout_height="wrap_content"
-        />
-    <!--
-    <RelativeLayout
-        android:id="@+id/RelativeLayoutInCustomDailyAlert"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/customDailyDoneButton"
-            android:background="?android:attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DONE"
-            android:layout_alignParentRight="true"
-            />
-        <Button
-            android:id="@+id/customDailyCancelButton"
-            android:background="?android:attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CANCEL"
-            android:layout_alignParentLeft="true"
-            />
-    </RelativeLayout> -->
-</LinearLayout>
+        android:layout_below="@id/habitName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:layout_toRightOf="@+id/timesPer" />
+
+</RelativeLayout>

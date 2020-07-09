@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -234,6 +236,14 @@ public class HabitFragment extends Fragment {
                             });
                             AlertDialog dialog = builder.create();
                             dialog.show();
+                        }
+                    });
+
+                    cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Log.d("TAG", "long click detected");
+                            return true;
                         }
                     });
 

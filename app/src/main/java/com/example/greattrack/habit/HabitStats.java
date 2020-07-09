@@ -260,7 +260,7 @@ public class HabitStats extends AppCompatActivity {
                         }
                     }
                 }
-                if (timesThatWeek == habit.getTimesDuringFreq()) {
+                if (timesThatWeek >= habit.getTimesDuringFreq()) {
                     ++weeksComplete;
                 }
                 ++numWeeks;
@@ -338,13 +338,83 @@ public class HabitStats extends AppCompatActivity {
             Log.d("TAG", "times each month: " + timesEachMonth);
 
             for (int theMonth : timesEachMonth.keySet()) {
-                if (timesEachMonth.get(theMonth) == habit.getTimesDuringFreq()) {
+                if (timesEachMonth.get(theMonth) >= habit.getTimesDuringFreq()) {
                     ++monthsComplete;
                 }
             }
             Log.d("TAG", "months complete: " + monthsComplete + " out of " + numMonths);
 
             double percentageComplete = ((double) monthsComplete/ (double) numMonths)*100;
+            int intPercentComplete = Math.round((float) percentageComplete);
+
+            CardView completionCardView = new CardView(this);
+            RelativeLayout.LayoutParams completionCardViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout completionCardViewRelativeLayout = new RelativeLayout(this);
+            TextView textView = new TextView(this);
+            textView.setText("You complete your habit ");
+            RelativeLayout.LayoutParams textViewLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            textView.setId(View.generateViewId());
+            TextView percentTextView = new TextView(this);
+            RelativeLayout.LayoutParams percentTextViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            percentTextViewParams.setMargins(10, 0, 10, 0);
+            percentTextView.setTextColor(Color.parseColor("#FFFFFF"));
+            percentTextView.setTextSize((float) 35.0);
+            textViewLayout.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            percentTextViewParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            percentTextViewParams.addRule(RelativeLayout.BELOW, textView.getId());
+            percentTextView.setText(intPercentComplete + "%");
+            TextView ofTheTimeView = new TextView(this);
+            RelativeLayout.LayoutParams ofTheTimeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            ofTheTimeParams.setMargins(10, 0, 10, 0);
+            ofTheTimeView.setTextColor(Color.parseColor("#FFFFFF"));
+            ofTheTimeView.setTextSize((float) 20.0);
+            ofTheTimeParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            percentTextView.setId(View.generateViewId());
+            ofTheTimeParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            ofTheTimeParams.addRule(RelativeLayout.BELOW, percentTextView.getId());
+            ofTheTimeView.setText("of the time");
+            textViewLayout.setMargins(10, 0, 10, 0);
+            textView.setTextColor(Color.parseColor("#FFFFFF"));
+            completionCardView.setCardBackgroundColor(Color.parseColor("#0077ff"));
+            completionCardView.setRadius((float) 20.0);
+            textView.setTextSize((float) 20.0);
+            completionCardViewParams.setMargins(10, 10, 10, 10);
+            completionCardViewRelativeLayout.addView(textView, textViewLayout);
+            completionCardViewRelativeLayout.addView(percentTextView, percentTextViewParams);
+            completionCardViewRelativeLayout.addView(ofTheTimeView, ofTheTimeParams);
+            completionCardView.addView(completionCardViewRelativeLayout);
+            linearLayout.addView(completionCardView, 1, completionCardViewParams);
+
+        }
+
+        //Yearly completion calculation
+        if(habit.getFreq() == HabitFrequency.yearly) {
+            newBoi = LocalDate.now();
+            int numYears = newBoi.getYear() - oldBoi.getYear() + 1;
+            int yearsComplete =  0;
+            HashMap<Integer, Integer> timesEachYear = new HashMap<Integer, Integer>();
+            Log.d("TAG", "number of years: " + numYears);
+            for (justHabitDate justDate : onlyTheDatesList) {
+                if(!timesEachYear.containsKey(justDate.getYear())) {
+                    timesEachYear.put(justDate.getYear(), 1);
+                } else {
+                    timesEachYear.put(justDate.getYear(), timesEachYear.get(justDate.getYear()) + 1);
+                }
+            }
+
+            for (int theYear : timesEachYear.keySet()) {
+                if (timesEachYear.get(theYear) >= habit.getTimesDuringFreq()) {
+                    ++yearsComplete;
+                }
+            }
+
+            Log.d("TAG", "times each year: " + timesEachYear);
+
+            double percentageComplete = ((double) yearsComplete/ (double) numYears)*100;
             int intPercentComplete = Math.round((float) percentageComplete);
 
             CardView completionCardView = new CardView(this);

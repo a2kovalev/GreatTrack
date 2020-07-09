@@ -1,15 +1,10 @@
 package com.example.greattrack.habit;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.greattrack.R;
@@ -32,7 +25,7 @@ public class HabitDialogueActivity extends AppCompatActivity {
         Log.d("TAG", "In OnCreate of HabitDialogue");
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.fragment_dialogue_habit);
+        setContentView(R.layout.edit_habit_alert);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         getSupportActionBar().setTitle("Add a New Habit");
         Spinner spinner = (Spinner) findViewById(R.id.freqSpinner);
