@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.greattrack.R;
 
+import java.util.ArrayList;
+
 public class editHabit extends AppCompatActivity {
     public static final String TAG = "Edit Habit Dialogue Activity";
 
@@ -29,7 +31,7 @@ public class editHabit extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.edit_habit_alert);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
-        getSupportActionBar().setTitle("Add a New Habit");
+        getSupportActionBar().setTitle("Edit a Habit");
         Spinner spinner = (Spinner) findViewById(R.id.freqSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.frequencies, android.R.layout.simple_spinner_item);
@@ -37,6 +39,7 @@ public class editHabit extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         Button createHabitButton = findViewById(R.id.createHabitButton);
+        createHabitButton.setText("Edit Habit");
         createHabitButton.setTextColor(Color.parseColor("#ffffff"));
 
         Switch remindersOnSwitch = findViewById(R.id.reminderSwitch);
@@ -44,18 +47,35 @@ public class editHabit extends AppCompatActivity {
 
         Intent intent = getIntent();
         Habit habit = (Habit) intent.getSerializableExtra("HabitToEdit");
+        int habitIndex = (Integer) intent.getSerializableExtra("IndexOfHabit");
+        Log.d("TAG", "habit Index: " + habitIndex);
 
 
         int[] reminderTime = {-1, -1};
 
         Spinner durationSpinner = findViewById(R.id.freqSpinner);
 
+        EditText habitNameTextField = findViewById(R.id.habitName);
+        habitNameTextField.setText(habit.habitName);
+        EditText frequencyTextField = findViewById(R.id.habitFrequency);
+        String freqTimes = Integer.toString(habit.getTimesDuringFreq());
+        frequencyTextField.setText(freqTimes);
+        String freqText = frequencyTextField.getText().toString();
+        String habitName = habitNameTextField.getText().toString();
+        int frequency = Integer.parseInt(freqText);
+        String habitFreqText = habit.getFreq().toString();
+        if (habitFreqText.equals("daily")) {
+            habitFreqText = "Day";
+        } else if (habitFreqText.equals("weekly")) {
+            habitFreqText = "Week";
+        } else if (habitFreqText.equals("monthly")) {
+            habitFreqText = "Month";
+        } else {
+            habitFreqText = "Year";
+        }
+        durationSpinner.setSelection(adapter.getPosition(habitFreqText));
+
         createHabitButton.setOnClickListener((v) -> {
-            EditText habitNameTextField = findViewById(R.id.habitName);
-            EditText frequencyTextField = findViewById(R.id.habitFrequency);
-            String freqText = frequencyTextField.getText().toString();
-            String habitName = habitNameTextField.getText().toString();
-            int frequency = Integer.parseInt(freqText);
             /*boolean remindersOn = remindersOnSwitch.isChecked(); */
             boolean remindersOn = false;
             String durationText = durationSpinner.getSelectedItem().toString();
@@ -70,14 +90,12 @@ public class editHabit extends AppCompatActivity {
                 } else {
                     duration = HabitFrequency.yearly;
                 }
+                Log.d("TAG", "Clicked finish edit habit button");
 
-                Log.d("TAG", "Clicked add habit button");
-                Habit newHabit = new Habit(habitName, frequency, remindersOn, duration);
-                HabitFragment.habitList.add(newHabit);
-
-                if (reminderTime[0] != -1 && reminderTime[1] != -1) {
-                    HabitFragment.remindersOnHabits.put(newHabit, reminderTime);
-                }
+                habit.setHabitName(habitNameTextField.getText().toString());
+                habit.setFreq(duration);
+                habit.setTimesDuringFreq(frequency);
+                HabitFragment.habitList.set(habitIndex, habit);
 
                 finish();
             } else {

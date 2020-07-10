@@ -295,6 +295,7 @@ public class HabitFragment extends Fragment {
         Log.d("TAG", "go to Edit Habit");
         Intent intent = new Intent(HabitFragment.this.getActivity(), editHabit.class);
         intent.putExtra("HabitToEdit", habit);
+        intent.putExtra("IndexOfHabit", habitList.indexOf(habit));
         startActivity(intent);
     }
 

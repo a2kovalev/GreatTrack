@@ -42,6 +42,22 @@ public class Habit implements Serializable {
         return freq;
     }
 
+    public void setHabitName(String habitName) {
+        this.habitName = habitName;
+    }
+
+    public void setTimesDuringFreq(int timesDuringFreq) {
+        this.timesDuringFreq = timesDuringFreq;
+    }
+
+    public void setRemindersOn(boolean remindersOn) {
+        this.remindersOn = remindersOn;
+    }
+
+    public void setFreq (HabitFrequency freq) {
+        this.freq = freq;
+    }
+
     public void setDatesAndTimes(ArrayList<HabitDateAndTime> datesAndTimes) {
         this.HabitLog = datesAndTimes;
     }
