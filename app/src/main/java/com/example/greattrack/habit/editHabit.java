@@ -60,9 +60,7 @@ public class editHabit extends AppCompatActivity {
         EditText frequencyTextField = findViewById(R.id.habitFrequency);
         String freqTimes = Integer.toString(habit.getTimesDuringFreq());
         frequencyTextField.setText(freqTimes);
-        String freqText = frequencyTextField.getText().toString();
         String habitName = habitNameTextField.getText().toString();
-        int frequency = Integer.parseInt(freqText);
         String habitFreqText = habit.getFreq().toString();
         if (habitFreqText.equals("daily")) {
             habitFreqText = "Day";
@@ -77,6 +75,10 @@ public class editHabit extends AppCompatActivity {
 
         createHabitButton.setOnClickListener((v) -> {
             /*boolean remindersOn = remindersOnSwitch.isChecked(); */
+            String freqText = frequencyTextField.getText().toString();
+            Log.d("TAG", "Freq text variable: " + freqText);
+            int frequency = Integer.parseInt(freqText);
+            Log.d("TAG", "Habit times during freq: " + frequency);
             boolean remindersOn = false;
             String durationText = durationSpinner.getSelectedItem().toString();
             if (!durationText.equals("Select")) {
