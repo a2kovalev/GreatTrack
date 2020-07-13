@@ -39,7 +39,7 @@ public class editHabit extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         Button createHabitButton = findViewById(R.id.createHabitButton);
-        createHabitButton.setText("Edit Habit");
+        createHabitButton.setText("Finish Edit");
         createHabitButton.setTextColor(Color.parseColor("#ffffff"));
 
         Switch remindersOnSwitch = findViewById(R.id.reminderSwitch);

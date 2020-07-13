@@ -6,20 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.greattrack.budget.BudgetFragment">
 
+    <RelativeLayout
+        android:id="@+id/budgetRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp">
 
-    <TextView
-        android:id="@+id/habitText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="342dp"
-        android:layout_marginEnd="164dp"
-        android:layout_marginBottom="370dp"
-        android:text="BUDGET STUFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
