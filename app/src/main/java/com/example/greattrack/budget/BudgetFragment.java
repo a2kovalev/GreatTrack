@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.greattrack.R;
 
+import org.w3c.dom.Text;
+
 public class BudgetFragment extends Fragment {
-    private static final String TAG = "Budget Fragment";
+    private static final String BTAG = "Budget Fragment";
     public static boolean thereIsABudget = false;
+    public static Budget budget;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class BudgetFragment extends Fragment {
             relativeLayout.addView(buttonCardView, 0, buttonCardParams);
 
             createBudgetButton.setOnClickListener(v -> {
-                Log.d("TAG", "Create budget button clicked");
+                Log.d("BTAG", "Create budget button clicked");
                 createBudgetButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 buttonCardView.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
                 goToCreateBudget();
@@ -63,11 +67,14 @@ public class BudgetFragment extends Fragment {
         if(thereIsABudget==true) {
             RelativeLayout relativeLayout = getView().findViewById(R.id.budgetRelativeLayout);
             relativeLayout.removeViewAt(0);
+            TextView tempText = new TextView(this.getActivity());
+            tempText.setText("Current budget: " + budget.getAmount());
+            relativeLayout.addView(tempText);
         }
     }
 
     public void goToCreateBudget() {
-        Log.d("TAG", "Go to create budget");
+        Log.d("BTAG", "Go to create budget");
         Intent intent = new Intent(BudgetFragment.this.getActivity(), createBudget.class);
         startActivity(intent);
     }

@@ -19,18 +19,31 @@
             android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"/>
 
+        <TextView
+            android:id="@+id/dollarSignTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="$"
+            android:textSize="20dp"
+            android:layout_toLeftOf="@id/budgetNumberEditText"
+            android:layout_below="@id/howMuchTextView"
+            android:background="#FFFFFF"
+            android:textColor="#45bd00"
+            android:gravity="center_vertical"
+            />
+
         <EditText
             android:id="@+id/budgetNumberEditText"
             android:selectAllOnFocus="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:text="Enter Amount"
             android:textColor="#45bd00"
             android:textSize="20dp"
             android:background="#FFFFFF"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/howMuchTextView"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:padding="3dp"/>
 
         <TextView
@@ -49,8 +62,8 @@
             android:id="@+id/budgetSpinner"
             android:background="#FFFFFF"
             android:layout_marginTop="5dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/budgetMonthlyOrWeekly"
             android:layout_centerHorizontal="true"
            />
@@ -65,7 +78,7 @@
             android:padding="10dp"
             android:background="@drawable/round_btn2"
             android:layout_below="@id/budgetSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
