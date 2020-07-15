@@ -102,10 +102,22 @@ public class BudgetFragment extends Fragment {
             if(createButtonPresent) {
                 relativeLayout.removeViewAt(0);
             }
-            TextView tempText = new TextView(this.getActivity());
-            tempText.setText("Current budget: " + budget.getAmount());
 
-            relativeLayout.addView(tempText);
+            CardView budgetCardView = new CardView(this.getActivity());
+            RelativeLayout.LayoutParams budgetCardParams =
+                    new RelativeLayout.LayoutParams(450, 300);
+            RelativeLayout budgetCardRelativeLayout = new RelativeLayout(this.getActivity());
+            RelativeLayout.LayoutParams budgetCardRelativeLayoutParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            TextView budgetTextForCard = new TextView(this.getActivity());
+            RelativeLayout.LayoutParams budgetCardTextParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            budgetTextForCard.setText("Current budget: " + budget.getAmount());
+            budgetCardRelativeLayout.addView(budgetTextForCard, budgetCardTextParams);
+            budgetCardView.addView(budgetCardRelativeLayout, budgetCardRelativeLayoutParams);
+            budgetCardParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            relativeLayout.addView(budgetCardView, budgetCardParams);
         }
     }
 

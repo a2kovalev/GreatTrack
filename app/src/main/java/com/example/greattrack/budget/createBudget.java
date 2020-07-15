@@ -24,6 +24,7 @@ public class createBudget extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("BTAG", "budget onCreate method");
         setContentView(R.layout.create_budget);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
         getSupportActionBar().setTitle("Create Budget");
         Button createBudgetButton = findViewById(R.id.createBudgetButton);
