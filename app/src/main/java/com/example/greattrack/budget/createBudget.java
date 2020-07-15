@@ -36,7 +36,6 @@ public class createBudget extends AppCompatActivity {
         createBudgetButton.setOnClickListener(v -> {
             DecimalFormat df = new DecimalFormat("0.00");
             Log.d("BTAG", "create button clicked");
-            BudgetFragment.thereIsABudget = true;
             EditText amountEditText = findViewById(R.id.budgetNumberEditText);
             if (!amountEditText.getText().toString().equals("Enter Amount")) {
                 double amount = Double.parseDouble(amountEditText.getText().toString());

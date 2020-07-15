@@ -8,11 +8,13 @@ enum BudgetFrequency {
 
 public class Budget implements Serializable {
     double amount;
+    double originalAmount;
     BudgetFrequency frequency;
 
     public Budget (double amount, BudgetFrequency frequency) {
         this.amount = amount;
         this.frequency = frequency;
+        originalAmount = amount;
     }
 
     public void addMoney (double money) {
