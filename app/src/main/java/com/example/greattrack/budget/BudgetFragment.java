@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,15 +109,25 @@ public class BudgetFragment extends Fragment {
             buttonLinearLayout.setOrientation(LinearLayout.VERTICAL);
             RelativeLayout.LayoutParams buttonLinearLayoutParams =
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            buttonLinearLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            TextView haveYouSpentText = new TextView(this.getActivity());
+            RelativeLayout.LayoutParams haveYouSpentParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            haveYouSpentParams.setMargins(0, 5, 0, 5);
+            haveYouSpentText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            haveYouSpentText.setTextSize((float) 15.0);
+            haveYouSpentText.setText("Spent money?");
+            haveYouSpentText.setTextColor(getResources().getColor(R.color.colorAccent));
+            buttonLinearLayout.addView(haveYouSpentText, haveYouSpentParams);
+
             Button spentMoneyButton = new Button(this.getActivity());
             spentMoneyButton.setBackgroundResource(R.drawable.round_btn3);
             spentMoneyButton.setText("Subtract funds");
-            spentMoneyButton.setTextSize(18);
-            spentMoneyButton.setTextColor(Color.parseColor("#F3F3F3"));
-            spentMoneyButton.setPadding(15, 0, 15 ,0);
+            spentMoneyButton.setTextSize(16);
+            spentMoneyButton.setTextColor(Color.parseColor("#FFFFFF"));
+            spentMoneyButton.setPadding(5, 0, 5 ,0);
             spentMoneyButton.setStateListAnimator(null);
             buttonLinearLayout.addView(spentMoneyButton);
-            buttonLinearLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
             spentMoneyButton.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
@@ -134,6 +145,7 @@ public class BudgetFragment extends Fragment {
                         double subtractThis = Double.parseDouble(subtractAmount.getText().toString());
                         Log.d("TAG", "subtracting " + subtractThis);
                         budget.subtractMoney(subtractThis);
+                        saveBudget();
                         displayBudget();
                         dialog.dismiss();
                     }
@@ -150,17 +162,70 @@ public class BudgetFragment extends Fragment {
                 dialog.show();
             });
 
+            TextView needMoreText = new TextView(this.getActivity());
+            RelativeLayout.LayoutParams needMoreParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            needMoreParams.setMargins(0, 5, 0, 5);
+            needMoreText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            needMoreText.setTextSize((float) 15.0);
+            needMoreText.setText("Need a little more?");
+            needMoreText.setTextColor(getResources().getColor(R.color.colorAccent));
+            buttonLinearLayout.addView(needMoreText, needMoreParams);
+
+            Button addMoneyButton = new Button(this.getActivity());
+            addMoneyButton.setBackgroundResource(R.drawable.round_btn3);
+            addMoneyButton.setText("Add funds");
+            addMoneyButton.setTextSize(16);
+            addMoneyButton.setTextColor(Color.parseColor("#FFFFFF"));
+            addMoneyButton.setPadding(5, 0, 5 ,0);
+            addMoneyButton.setStateListAnimator(null);
+            buttonLinearLayout.addView(addMoneyButton);
+
+            addMoneyButton.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                builder.setTitle("Add Funds");
+                builder.setMessage("How much money would you like to add?");
+                LayoutInflater inflater = BudgetFragment.this.getLayoutInflater();
+                View mView = inflater.inflate(R.layout.subtract_alert_layout, null);
+                final EditText subtractAmount = (EditText)mView.findViewById(R.id.subtractEditText);
+                builder.setView(mView);
+
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("BTAG", "positive button clicked");
+                        double addThis = Double.parseDouble(subtractAmount.getText().toString());
+                        Log.d("TAG", "adding " + addThis);
+                        budget.addMoney(addThis);
+                        saveBudget();
+                        displayBudget();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            });
+
+            RelativeLayout horizontalRelativeLayout = new RelativeLayout(this.getActivity());
+            RelativeLayout.LayoutParams horizontalRelativeParams =
+                    new RelativeLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+
             Button deleteButton = new Button(this.getActivity());
             RelativeLayout.LayoutParams deleteButtonParams =
-                    new RelativeLayout.LayoutParams(650, ViewGroup.LayoutParams.WRAP_CONTENT);
-            deleteButtonParams.setMargins(0, 25, 0, 10);
-            deleteButton.setBackgroundResource(R.drawable.round_btn3);
-            deleteButton.setText("Delete budget");
-            deleteButton.setTextSize(18);
-            deleteButton.setTextColor(Color.parseColor("#F3F3F3"));
-            deleteButton.setPadding(15, 0, 15 ,0);
+                    new RelativeLayout.LayoutParams(200, 200);
+            deleteButtonParams.setMargins(0, 15, 0, 5);
+            deleteButton.setBackgroundResource(R.drawable.round_btn4);
+            deleteButton.setPadding(5, 0, 5 ,0);
             deleteButton.setStateListAnimator(null);
-            buttonLinearLayout.addView(deleteButton, deleteButtonParams);
+            horizontalRelativeLayout.addView(deleteButton, deleteButtonParams);
 
             deleteButton.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
@@ -190,9 +255,18 @@ public class BudgetFragment extends Fragment {
                 dialog.show();
             });
 
-            buttonLinearLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            Button editButton = new Button(this.getActivity());
+            RelativeLayout.LayoutParams editButtonParams =
+                    new RelativeLayout.LayoutParams(200, 200);
+            editButtonParams.setMargins(10, 15, 0, 5);
+            editButton.setBackgroundResource(R.drawable.round_btn5);
+            editButton.setPadding(5, 5, 5 ,5);
+            editButton.setStateListAnimator(null);
+            editButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            horizontalRelativeLayout.addView(editButton,  editButtonParams);
+            horizontalRelativeParams.setMargins(0, 0, 20, 20);
 
-
+            buttonLinearLayout.addView(horizontalRelativeLayout, horizontalRelativeParams);
             relativeLayout.addView(buttonLinearLayout, buttonLinearLayoutParams);
         }
     }
