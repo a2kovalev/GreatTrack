@@ -39,6 +39,7 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BudgetFragment extends Fragment {
     private static final String BTAG = "Budget Fragment";
@@ -47,6 +48,9 @@ public class BudgetFragment extends Fragment {
     private boolean createButtonPresent = false;
     public static final String SHARED_PREFS = "NAME_OF_SP";
     public static final String NAME_OF_VAL = "budget";
+    public static final String LEDGER_PREFS = "LEDGER_PREF";
+    public static final String NAME_OF_LED = "ledger";
+    public static HashMap<budgetDateAndTime, String> budgetLedger = new HashMap<budgetDateAndTime, String>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +59,10 @@ public class BudgetFragment extends Fragment {
 
         if (getBudget() != null) {
             budget = getBudget();
+        }
+        if (getLedger() != null) {
+            budgetLedger = getLedger();
+            Log.d("BTAG", "budget ledger at start: " + budgetLedger);
         }
         showCreateButton();
         return view;
@@ -330,7 +338,38 @@ public class BudgetFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFS, getContext().MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPref.getString(NAME_OF_VAL, null);
+        Log.d("BTAG", "json payload: " + json);
         Log.d("BTAG", "gson from json: " + gson.fromJson(json, Budget.class));
         return gson.fromJson(json, Budget.class);
+    }
+
+    public void saveLedger() {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(budgetLedger);
+        Log.d("BTAG", "JSON: " + json);
+        editor.putString(NAME_OF_LED, json);
+        editor.apply();
+    }
+
+    public HashMap<budgetDateAndTime, String> getLedger()
+    {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, getContext().MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPref.getString(NAME_OF_LED, null);
+        Log.d("BTAG", "json payload: " + json);
+        Log.d("BTAG", "gson from json: " + gson.fromJson(json, Budget.class));
+        return gson.fromJson(json, budgetLedger.getClass());
+    }
+
+    public static void addToLedger(budgetDateAndTime date, Double amount) {
+        budgetLedger.put(date, amount.toString());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        saveLedger();
     }
 }
