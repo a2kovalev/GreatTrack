@@ -116,7 +116,7 @@ public class BudgetFragment extends Fragment {
             LinearLayout buttonLinearLayout = new LinearLayout(this.getActivity());
             buttonLinearLayout.setOrientation(LinearLayout.VERTICAL);
             RelativeLayout.LayoutParams buttonLinearLayoutParams =
-                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    new RelativeLayout.LayoutParams(700, ViewGroup.LayoutParams.WRAP_CONTENT);
             buttonLinearLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             TextView haveYouSpentText = new TextView(this.getActivity());
             RelativeLayout.LayoutParams haveYouSpentParams =
@@ -222,18 +222,21 @@ public class BudgetFragment extends Fragment {
                 dialog.show();
             });
 
-            RelativeLayout horizontalRelativeLayout = new RelativeLayout(this.getActivity());
-            RelativeLayout.LayoutParams horizontalRelativeParams =
-                    new RelativeLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout horizontalLinearLayout = new LinearLayout(this.getActivity());
+            RelativeLayout.LayoutParams horizontalLinearParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            horizontalLinearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
             Button deleteButton = new Button(this.getActivity());
+            deleteButton.setId(View.generateViewId());
             RelativeLayout.LayoutParams deleteButtonParams =
                     new RelativeLayout.LayoutParams(200, 200);
             deleteButtonParams.setMargins(0, 15, 0, 5);
             deleteButton.setBackgroundResource(R.drawable.round_btn4);
             deleteButton.setPadding(5, 0, 5 ,0);
             deleteButton.setStateListAnimator(null);
-            horizontalRelativeLayout.addView(deleteButton, deleteButtonParams);
+            horizontalLinearLayout.addView(deleteButton, deleteButtonParams);
 
             deleteButton.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
@@ -246,6 +249,8 @@ public class BudgetFragment extends Fragment {
                         Log.d("BTAG", "positive button clicked");
                         budget = null;
                         saveBudget();
+                        budgetLedger.clear();
+                        saveLedger();
                         relativeLayout.removeAllViews();
                         showCreateButton();
                         dialog.dismiss();
@@ -264,6 +269,7 @@ public class BudgetFragment extends Fragment {
             });
 
             Button editButton = new Button(this.getActivity());
+            editButton.setId(View.generateViewId());
             RelativeLayout.LayoutParams editButtonParams =
                     new RelativeLayout.LayoutParams(200, 200);
             editButtonParams.setMargins(10, 15, 0, 5);
@@ -271,10 +277,26 @@ public class BudgetFragment extends Fragment {
             editButton.setPadding(5, 5, 5 ,5);
             editButton.setStateListAnimator(null);
             editButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            horizontalRelativeLayout.addView(editButton,  editButtonParams);
-            horizontalRelativeParams.setMargins(0, 0, 20, 20);
 
-            buttonLinearLayout.addView(horizontalRelativeLayout, horizontalRelativeParams);
+            editButton.setOnClickListener(v -> {
+                goToEditBudget();
+            });
+
+            Button historyButton = new Button(this.getActivity());
+            RelativeLayout.LayoutParams historyButtonParams =
+                    new RelativeLayout.LayoutParams(200, 200);
+            historyButtonParams.setMargins(10, 15, 0, 5);
+            historyButton.setBackgroundResource(R.drawable.round_btn6);
+            historyButton.setPadding(5, 5, 5 ,5);
+            historyButton.setStateListAnimator(null);
+            historyButtonParams.addRule(RelativeLayout.LEFT_OF, editButton.getId());
+            historyButtonParams.addRule(RelativeLayout.RIGHT_OF, deleteButton.getId());
+            horizontalLinearLayout.addView(historyButton,  historyButtonParams);
+            horizontalLinearLayout.addView(editButton,  editButtonParams);
+
+            horizontalLinearParams.setMargins(0, 20, 0, 0);
+            horizontalLinearParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            buttonLinearLayout.addView(horizontalLinearLayout, horizontalLinearParams);
             relativeLayout.addView(buttonLinearLayout, buttonLinearLayoutParams);
         }
     }
@@ -365,6 +387,12 @@ public class BudgetFragment extends Fragment {
 
     public static void addToLedger(budgetDateAndTime date, Double amount) {
         budgetLedger.put(date, amount.toString());
+    }
+
+    public void goToEditBudget() {
+        Log.d("BTAG", "Go to edit budget");
+        Intent intent = new Intent(BudgetFragment.this.getActivity(), editBudget.class);
+        startActivity(intent);
     }
 
     @Override

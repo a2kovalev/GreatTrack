@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setupViewPager(CustomViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new HabitFragment());

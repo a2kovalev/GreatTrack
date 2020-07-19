@@ -44,6 +44,18 @@ public class Budget implements Serializable {
         return amount;
     }
 
+    public double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setOriginalAmount(double originalAmount) {
+        this.originalAmount = originalAmount;
+    }
+
     public BudgetFrequency getFrequency() {
         return frequency;
     }
