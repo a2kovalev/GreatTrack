@@ -291,6 +291,11 @@ public class BudgetFragment extends Fragment {
             historyButton.setStateListAnimator(null);
             historyButtonParams.addRule(RelativeLayout.LEFT_OF, editButton.getId());
             historyButtonParams.addRule(RelativeLayout.RIGHT_OF, deleteButton.getId());
+
+            historyButton.setOnClickListener(v -> {
+                goToLedger();
+            });
+
             horizontalLinearLayout.addView(historyButton,  historyButtonParams);
             horizontalLinearLayout.addView(editButton,  editButtonParams);
 
@@ -392,6 +397,12 @@ public class BudgetFragment extends Fragment {
     public void goToEditBudget() {
         Log.d("BTAG", "Go to edit budget");
         Intent intent = new Intent(BudgetFragment.this.getActivity(), editBudget.class);
+        startActivity(intent);
+    }
+
+    public void goToLedger() {
+        Log.d("BTAG", "Go to ledger");
+        Intent intent = new Intent(BudgetFragment.this.getActivity(), budgetLedger.class);
         startActivity(intent);
     }
 
