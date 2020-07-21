@@ -26,16 +26,15 @@ public class Budget implements Serializable {
     public void addMoney (double money) {
         amount = amount + money;
         LocalDateTime current = LocalDateTime.now();
-        budgetDateAndTime dateAndTime = new budgetDateAndTime(current.getHour(), current.getMinute(), current.getYear(), current.getMonthValue() + 1, current.getDayOfMonth());
-        BudgetFragment.addToLedger(dateAndTime, money);
+        budgetDateAndTime dateAndTime = new budgetDateAndTime(current.getHour(), current.getMinute(), current.getYear(), current.getMonthValue() + 1, current.getDayOfMonth(), money);
+        BudgetFragment.addToLedger(dateAndTime);
     }
 
     public void subtractMoney (double money) {
         amount = amount - money;
         LocalDateTime current = LocalDateTime.now();
-        budgetDateAndTime dateAndTime = new budgetDateAndTime(current.getHour(), current.getMinute(), current.getYear(), current.getMonthValue() + 1, current.getDayOfMonth());
-        double minusMoney = money * -1;
-        BudgetFragment.addToLedger(dateAndTime, minusMoney);
+        budgetDateAndTime dateAndTime = new budgetDateAndTime(current.getHour(), current.getMinute(), current.getYear(), current.getMonthValue() + 1, current.getDayOfMonth(), money*-1);
+        BudgetFragment.addToLedger(dateAndTime);
     }
 
     public double getAmount() {

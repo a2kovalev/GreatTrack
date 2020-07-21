@@ -7,13 +7,15 @@ import java.io.Serializable;
 
 public class budgetDateAndTime implements Serializable {
     int hour, minute, year, month, day;
+    double amount;
 
-    public budgetDateAndTime(int hour, int minute, int year, int month, int day) {
+    public budgetDateAndTime(int hour, int minute, int year, int month, int day, double amount) {
         this.year = year;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.amount = amount;
     }
 
     public int getHour() {
@@ -34,5 +36,9 @@ public class budgetDateAndTime implements Serializable {
 
     public int getDay() {
         return day;
+    }
+
+    public double getAmount() {
+        return amount;
     }
 }

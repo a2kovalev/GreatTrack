@@ -1,6 +1,5 @@
 package com.example.greattrack.budget;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,25 +7,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.greattrack.R;
@@ -34,12 +28,10 @@ import com.example.greattrack.habit.Habit;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class BudgetFragment extends Fragment {
     private static final String BTAG = "Budget Fragment";
@@ -50,7 +42,7 @@ public class BudgetFragment extends Fragment {
     public static final String NAME_OF_VAL = "budget";
     public static final String LEDGER_PREFS = "LEDGER_PREF";
     public static final String NAME_OF_LED = "ledger";
-    public static HashMap<budgetDateAndTime, String> budgetLedger = new HashMap<budgetDateAndTime, String>();
+    public static ArrayList<budgetDateAndTime> budgetLedgerList = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,8 +53,8 @@ public class BudgetFragment extends Fragment {
             budget = getBudget();
         }
         if (getLedger() != null) {
-            budgetLedger = getLedger();
-            Log.d("BTAG", "budget ledger at start: " + budgetLedger);
+            budgetLedgerList = getLedger();
+            Log.d("BTAG", "budget ledger at start: " + budgetLedgerList);
         }
         showCreateButton();
         return view;
@@ -76,11 +68,12 @@ public class BudgetFragment extends Fragment {
         displayBudget();
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        saveBudget();
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        saveBudget();
+        saveLedger();
+    }
 
     public void displayBudget() {
         if(budget != null) {
@@ -249,7 +242,7 @@ public class BudgetFragment extends Fragment {
                         Log.d("BTAG", "positive button clicked");
                         budget = null;
                         saveBudget();
-                        budgetLedger.clear();
+                        budgetLedgerList.clear();
                         saveLedger();
                         relativeLayout.removeAllViews();
                         showCreateButton();
@@ -374,24 +367,24 @@ public class BudgetFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, getContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(budgetLedger);
-        Log.d("BTAG", "JSON: " + json);
+        String json = gson.toJson(budgetLedgerList);
         editor.putString(NAME_OF_LED, json);
         editor.apply();
     }
 
-    public HashMap<budgetDateAndTime, String> getLedger()
-    {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, getContext().MODE_PRIVATE);
+    public ArrayList<budgetDateAndTime> getLedger() {
+        getContext();
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPref.getString(NAME_OF_LED, null);
-        Log.d("BTAG", "json payload: " + json);
-        Log.d("BTAG", "gson from json: " + gson.fromJson(json, Budget.class));
-        return gson.fromJson(json, budgetLedger.getClass());
+        Log.d("BTAG", "json in getledger: " + json);
+        Type type = new TypeToken<ArrayList<budgetDateAndTime>>() {}.getType();
+        ArrayList<budgetDateAndTime> theList = gson.fromJson(json, type);
+        return theList;
     }
 
-    public static void addToLedger(budgetDateAndTime date, Double amount) {
-        budgetLedger.put(date, amount.toString());
+    public static void addToLedger(budgetDateAndTime date) {
+        budgetLedgerList.add(date);
     }
 
     public void goToEditBudget() {
@@ -404,11 +397,5 @@ public class BudgetFragment extends Fragment {
         Log.d("BTAG", "Go to ledger");
         Intent intent = new Intent(BudgetFragment.this.getActivity(), budgetLedger.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        saveLedger();
     }
 }
