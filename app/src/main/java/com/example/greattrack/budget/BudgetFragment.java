@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,6 +46,7 @@ public class BudgetFragment extends Fragment {
     public static final String LEDGER_PREFS = "LEDGER_PREF";
     public static final String NAME_OF_LED = "ledger";
     public static ArrayList<budgetDateAndTime> budgetLedgerList = new ArrayList<>();
+    public static LocalDateTime lastResetDate;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +60,10 @@ public class BudgetFragment extends Fragment {
             budgetLedgerList = getLedger();
             Log.d("BTAG", "budget ledger at start: " + budgetLedgerList);
         }
-        if (budget != null) {
+        if (loadResetDate() != 0) {
+            lastResetDate = Instant.ofEpochMilli(loadResetDate()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        }
+        if (lastResetDate != null) {
             budgetReset();
         }
         showCreateButton();
@@ -78,6 +83,7 @@ public class BudgetFragment extends Fragment {
         super.onDestroy();
         saveBudget();
         saveLedger();
+        saveResetDate();
     }
 
     public void displayBudget() {
@@ -343,7 +349,7 @@ public class BudgetFragment extends Fragment {
 
     private void budgetReset() {
         LocalDateTime currDate = LocalDateTime.now();
-        LocalDateTime lastReset = budget.getLastResetDate();
+        LocalDateTime lastReset = lastResetDate;
         long currTimeInMillis = currDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         Log.d("BTAG", "current millis time: " + currTimeInMillis);
         long oldTimeInMillis = lastReset.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -354,26 +360,41 @@ public class BudgetFragment extends Fragment {
             if (currTimeInMillis - oldTimeInMillis >= twentyFourHours) {
                 double original = budget.getOriginalAmount();
                 budget.setAmount(original);
+                lastResetDate = currDate;
             }
         } else if (budget.getFrequency() == BudgetFrequency.weekly) {
             long oneWeek = TimeUnit.DAYS.toMillis(7);
             if (currTimeInMillis - oldTimeInMillis >= oneWeek) {
                 double original = budget.getOriginalAmount();
                 budget.setAmount(original);
+                lastResetDate = currDate;
             }
         } else {
             if (currDate.getMonthValue() != lastReset.getMonthValue()) {
                 double original = budget.getOriginalAmount();
                 budget.setAmount(original);
+                lastResetDate = currDate;
             }
         }
-
     }
 
     public void goToCreateBudget() {
         Log.d("BTAG", "Go to create budget");
         Intent intent = new Intent(BudgetFragment.this.getActivity(), createBudget.class);
         startActivity(intent);
+    }
+
+    public void saveResetDate() {
+        long milliseconds = lastResetDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong("lastResetDate", milliseconds);
+    }
+
+    public long loadResetDate() {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", getContext().MODE_PRIVATE);
+        long milliseconds = sharedPref.getLong("lastResetDate", 0);
+        return milliseconds;
     }
 
     public void saveBudget()

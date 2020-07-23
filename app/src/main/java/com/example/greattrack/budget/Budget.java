@@ -2,6 +2,7 @@ package com.example.greattrack.budget;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 enum BudgetFrequency {
@@ -12,13 +13,11 @@ public class Budget implements Serializable {
     double amount;
     double originalAmount;
     BudgetFrequency frequency;
-    LocalDateTime lastResetDate;
 
     public Budget (double amount, BudgetFrequency frequency) {
         this.amount = amount;
         this.frequency = frequency;
         originalAmount = amount;
-        lastResetDate = LocalDateTime.now();
     }
 
     public void addMoney (double money) {
@@ -55,10 +54,6 @@ public class Budget implements Serializable {
 
     public BudgetFrequency getFrequency() {
         return frequency;
-    }
-
-    public LocalDateTime getLastResetDate() {
-        return lastResetDate;
     }
 
 }

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.greattrack.R;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 
 public class createBudget extends AppCompatActivity {
     @Override
@@ -51,7 +52,9 @@ public class createBudget extends AppCompatActivity {
                 } else {
                     frequency = BudgetFrequency.monthly;
                 }
+                LocalDateTime currDateTime = LocalDateTime.now();
                 BudgetFragment.budget = new Budget(amount, frequency);
+                BudgetFragment.lastResetDate = currDateTime;
                 finish();
             } else {
                 Log.d("BTAG", "amount not edited");
