@@ -24,14 +24,16 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.greattrack.R;
-import com.example.greattrack.habit.Habit;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BudgetFragment extends Fragment {
     private static final String BTAG = "Budget Fragment";
@@ -55,6 +57,9 @@ public class BudgetFragment extends Fragment {
         if (getLedger() != null) {
             budgetLedgerList = getLedger();
             Log.d("BTAG", "budget ledger at start: " + budgetLedgerList);
+        }
+        if (budget != null) {
+            budgetReset();
         }
         showCreateButton();
         return view;
@@ -336,6 +341,35 @@ public class BudgetFragment extends Fragment {
 
     }
 
+    private void budgetReset() {
+        LocalDateTime currDate = LocalDateTime.now();
+        LocalDateTime lastReset = budget.getLastResetDate();
+        long currTimeInMillis = currDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Log.d("BTAG", "current millis time: " + currTimeInMillis);
+        long oldTimeInMillis = lastReset.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Log.d("BTAG", "last reset millis time: " + oldTimeInMillis);
+
+        if (budget.getFrequency() == BudgetFrequency.daily) {
+            long twentyFourHours = TimeUnit.HOURS.toMillis(24);
+            if (currTimeInMillis - oldTimeInMillis >= twentyFourHours) {
+                double original = budget.getOriginalAmount();
+                budget.setAmount(original);
+            }
+        } else if (budget.getFrequency() == BudgetFrequency.weekly) {
+            long oneWeek = TimeUnit.DAYS.toMillis(7);
+            if (currTimeInMillis - oldTimeInMillis >= oneWeek) {
+                double original = budget.getOriginalAmount();
+                budget.setAmount(original);
+            }
+        } else {
+            if (currDate.getMonthValue() != lastReset.getMonthValue()) {
+                double original = budget.getOriginalAmount();
+                budget.setAmount(original);
+            }
+        }
+
+    }
+
     public void goToCreateBudget() {
         Log.d("BTAG", "Go to create budget");
         Intent intent = new Intent(BudgetFragment.this.getActivity(), createBudget.class);
@@ -398,4 +432,5 @@ public class BudgetFragment extends Fragment {
         Intent intent = new Intent(BudgetFragment.this.getActivity(), budgetLedger.class);
         startActivity(intent);
     }
+
 }
