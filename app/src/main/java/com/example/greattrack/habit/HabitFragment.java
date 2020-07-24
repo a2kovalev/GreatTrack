@@ -62,6 +62,10 @@ public class HabitFragment extends Fragment {
         linearLayout = view.findViewById(R.id.linearLayoutInHabitScrollView);
         newHabitButton.setOnClickListener(v -> goToDialogue());
 
+        if(habitList.size() == 0) {
+            noCards();
+        }
+
         Log.d("TAG", "return view");
         return view;
     }
@@ -94,14 +98,17 @@ public class HabitFragment extends Fragment {
     public void createCards() {
         Log.d("TAG", "createCards method");
         Log.d("TAG", "linear layout has " + (linearLayout.getChildCount() - 1) + " card views");
-        for (int i = 0; i < linearLayout.getChildCount(); i++) {
-            Log.d("TAG", "create card deletion: iteration " + i);
-            Log.d("TAG", "This one is of type " + linearLayout.getChildAt(i).getClass());
-            if (linearLayout.getChildAt(i) instanceof MyCardView) {
-                Log.d("TAG", "deleting cards, iteration number " + i);
-                linearLayout.removeView(linearLayout.getChildAt(i));
-                i--;
-            }
+//        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+//            Log.d("TAG", "create card deletion: iteration " + i);
+//            Log.d("TAG", "This one is of type " + linearLayout.getChildAt(i).getClass());
+//            if (linearLayout.getChildAt(i) instanceof MyCardView) {
+//                Log.d("TAG", "deleting cards, iteration number " + i);
+//                linearLayout.removeView(linearLayout.getChildAt(i));
+//                i--;
+//            }
+//        }
+        if (habitList.size() > 0) {
+            linearLayout.removeAllViews();
         }
         if(habitList != null) {
             if (habitList.size() > 0) {
@@ -277,12 +284,27 @@ public class HabitFragment extends Fragment {
         }
     }
 
+    private void noCards() {
+        TextView noCardsText = new TextView(this.getActivity());
+        RelativeLayout.LayoutParams noCardsParams =
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        noCardsText.setText("No habits yet! Press \"+\" to add a new habit!");
+        noCardsText.setTextSize(18);
+        noCardsText.setTextColor(getResources().getColor(R.color.colorAccent));
+        noCardsParams.setMargins(35, 10, 35, 10);
+        noCardsParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        linearLayout.addView(noCardsText, noCardsParams);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void removeHabit(Habit habit, CardView cardView) {
         habitList.remove(habit);
         linearLayout.removeView(cardView);
         saveHabitList();
         createCards();
+        if (habitList.size() == 0) {
+            noCards();
+        }
     }
 
     private void goToDialogue() {

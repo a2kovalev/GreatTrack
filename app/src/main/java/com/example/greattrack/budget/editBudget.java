@@ -34,9 +34,9 @@ public class editBudget extends AppCompatActivity {
                 R.array.budgetFreq, R.layout.budget_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         budgetSpinner.setAdapter(adapter);
-
+        DecimalFormat df0 = new DecimalFormat("0.00");
         EditText amountEditText = findViewById(R.id.budgetNumberEditText);
-        amountEditText.setText(Double.toString(BudgetFragment.budget.getOriginalAmount()));
+        amountEditText.setText(df0.format(BudgetFragment.budget.getOriginalAmount()));
 
         String budgetFreqText = BudgetFragment.budget.getFrequency().toString();
         Log.d("BTAG", "budgetFreqText: " + budgetFreqText);
