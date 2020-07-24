@@ -66,6 +66,7 @@ public class BudgetFragment extends Fragment {
         if (lastResetDate != null) {
             budgetReset();
         }
+        Log.d("BTAG", "Last reset: " + lastResetDate);
         showCreateButton();
         return view;
     }
@@ -76,6 +77,7 @@ public class BudgetFragment extends Fragment {
         super.onResume();
         saveBudget();
         displayBudget();
+        Log.d("BTAG", "last reset onresume: " + lastResetDate);
     }
 
     @Override
@@ -83,7 +85,9 @@ public class BudgetFragment extends Fragment {
         super.onDestroy();
         saveBudget();
         saveLedger();
-        saveResetDate();
+        if(lastResetDate != null) {
+            saveResetDate();
+        }
     }
 
     public void displayBudget() {
