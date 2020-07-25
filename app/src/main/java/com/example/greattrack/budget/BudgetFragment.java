@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.example.greattrack.R;
 import com.google.gson.Gson;
@@ -78,6 +79,9 @@ public class BudgetFragment extends Fragment {
         saveBudget();
         displayBudget();
         Log.d("BTAG", "last reset onresume: " + lastResetDate);
+        if (budget != null && lastResetDate != null) {
+            saveResetDate();
+        }
     }
 
     @Override
@@ -390,14 +394,16 @@ public class BudgetFragment extends Fragment {
 
     public void saveResetDate() {
         long milliseconds = lastResetDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", getContext().MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong("lastResetDate", milliseconds);
+        editor.apply();
     }
 
     public long loadResetDate() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", getContext().MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", Context.MODE_PRIVATE);
         long milliseconds = sharedPref.getLong("lastResetDate", 0);
+        Log.d("BTAG", "last reset in loadResetDate: " + milliseconds);
         return milliseconds;
     }
 
@@ -432,8 +438,7 @@ public class BudgetFragment extends Fragment {
     }
 
     public ArrayList<budgetDateAndTime> getLedger() {
-        getContext();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(LEDGER_PREFS, getContext().MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPref.getString(NAME_OF_LED, null);
         Log.d("BTAG", "json in getledger: " + json);
