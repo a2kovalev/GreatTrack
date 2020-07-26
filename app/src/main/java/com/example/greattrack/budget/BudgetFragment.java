@@ -364,17 +364,26 @@ public class BudgetFragment extends Fragment {
         Log.d("BTAG", "last reset millis time: " + oldTimeInMillis);
 
         if (budget.getFrequency() == BudgetFrequency.daily) {
-            long twentyFourHours = TimeUnit.HOURS.toMillis(24);
-            if (currTimeInMillis - oldTimeInMillis >= twentyFourHours) {
-                double original = budget.getOriginalAmount();
-                budget.setAmount(original);
+//            long twentyFourHours = TimeUnit.HOURS.toMillis(24);
+//            if (currTimeInMillis - oldTimeInMillis >= twentyFourHours) {
+//                double original = budget.getOriginalAmount();
+//                budget.setAmount(original);
+//                lastResetDate = currDate;
+//            }
+            if ((currDate.getDayOfMonth() != lastReset.getDayOfMonth()) || (currDate.getMonthValue() >= lastReset.getMonthValue())
+                    || (currDate.getYear() >= lastReset.getYear())) {
                 lastResetDate = currDate;
             }
         } else if (budget.getFrequency() == BudgetFrequency.weekly) {
-            long oneWeek = TimeUnit.DAYS.toMillis(7);
-            if (currTimeInMillis - oldTimeInMillis >= oneWeek) {
-                double original = budget.getOriginalAmount();
-                budget.setAmount(original);
+//            long oneWeek = TimeUnit.DAYS.toMillis(7);
+//            if (currTimeInMillis - oldTimeInMillis >= oneWeek) {
+//                double original = budget.getOriginalAmount();
+//                budget.setAmount(original);
+//                lastResetDate = currDate;
+//            }
+            LocalDateTime sevenDays = lastResetDate.plusDays(7);
+            if (currDate.getDayOfMonth() >= sevenDays.getDayOfMonth() ||
+                    currDate.getMonthValue() >= sevenDays.getMonthValue() || currDate.getYear() >= sevenDays.getYear()) {
                 lastResetDate = currDate;
             }
         } else {
