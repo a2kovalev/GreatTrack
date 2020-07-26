@@ -45,11 +45,15 @@ public class createBudget extends AppCompatActivity {
                 amount = Double.parseDouble(df.format(amount));
                 Log.d("BTAG", "budget amount: " + df.format(amount));
                 BudgetFrequency frequency;
-                if (budgetSpinner.getSelectedItem() == "Daily") {
+                String spinnerText = budgetSpinner.getSelectedItem().toString();
+                if (spinnerText.equals("Daily")) {
+                    Log.d("BTAG", "daily chosen");
                     frequency = BudgetFrequency.daily;
-                } else if (budgetSpinner.getSelectedItem() == "Weekly") {
+                } else if (spinnerText.equals("Weekly")) {
+                    Log.d("BTAG", "weekly chosen");
                     frequency = BudgetFrequency.weekly;
                 } else {
+                    Log.d("BTAG", "monthly chosen");
                     frequency = BudgetFrequency.monthly;
                 }
                 LocalDateTime currDateTime = LocalDateTime.now();

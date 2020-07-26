@@ -64,7 +64,7 @@ public class BudgetFragment extends Fragment {
         if (loadResetDate() != 0) {
             lastResetDate = Instant.ofEpochMilli(loadResetDate()).atZone(ZoneId.systemDefault()).toLocalDateTime();
         }
-        if (lastResetDate != null) {
+        if (lastResetDate != null && budget != null) {
             budgetReset();
         }
         Log.d("BTAG", "Last reset: " + lastResetDate);
@@ -264,6 +264,7 @@ public class BudgetFragment extends Fragment {
                         budgetLedgerList.clear();
                         saveLedger();
                         relativeLayout.removeAllViews();
+                        lastResetDate = null;
                         showCreateButton();
                         dialog.dismiss();
                     }
