@@ -36,6 +36,7 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".budget.budgetLedger"
             android:parentActivityName=".MainActivity"/>
+        <activity android:name=".mood.moodStats"/>
     </application>
 
 </manifest>
