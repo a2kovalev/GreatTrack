@@ -35,7 +35,7 @@ public class MoodFragment extends Fragment {
 
     private static final String TAG = "Mood Fragment";
     LinearLayout linearLayout;
-    Stack<Mood> moodStack = new Stack<>();
+    protected static Stack<Mood> moodStack = new Stack<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
