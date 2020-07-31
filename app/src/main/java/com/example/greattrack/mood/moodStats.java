@@ -28,7 +28,7 @@ public class moodStats extends AppCompatActivity {
 
         linearLayout = findViewById(R.id.moodStatsLinearLayout);
         LayoutInflater inflater = LayoutInflater.from(this);
-        CardView mostRecentMoodCard = (CardView) inflater.inflate(R.layout.mood_display_card, null);
+        CardView mostRecentMoodCard = (CardView) inflater.inflate(R.layout.mood_display_card, linearLayout, false);
         TextView recentMoodName = mostRecentMoodCard.findViewById(R.id.moodCardMoodName);
         TextView recentMoodDate = mostRecentMoodCard.findViewById(R.id.moodCardDate);
 
@@ -73,7 +73,6 @@ public class moodStats extends AppCompatActivity {
             recentMoodName.setText(emotionText);
             recentMoodDate.setText(recentMood.getDate().getMonth() + "/" + recentMood.getDate().getDay() + "/" + recentMood.getDate().getYear());
         }
-
         linearLayout.addView(mostRecentMoodCard);
 
     }
