@@ -365,33 +365,45 @@ public class BudgetFragment extends Fragment {
         Log.d("BTAG", "last reset millis time: " + oldTimeInMillis);
 
         if (budget.getFrequency() == BudgetFrequency.daily) {
-//            long twentyFourHours = TimeUnit.HOURS.toMillis(24);
-//            if (currTimeInMillis - oldTimeInMillis >= twentyFourHours) {
-//                double original = budget.getOriginalAmount();
-//                budget.setAmount(original);
-//                lastResetDate = currDate;
-//            }
-            if ((currDate.getDayOfMonth() != lastReset.getDayOfMonth()) || (currDate.getMonthValue() >= lastReset.getMonthValue())
-                    || (currDate.getYear() >= lastReset.getYear())) {
+            if (currDate.getDayOfYear() > lastReset.getDayOfYear() || currDate.getYear() > lastReset.getYear()) {
                 lastResetDate = currDate;
+                double oldAmount = budget.getAmount();
+                double original = budget.getOriginalAmount();
+                budget.setAmount(original);
+                budgetDateAndTime dateForLedger = new budgetDateAndTime(currDate.getHour(), currDate.getMinute(),
+                        currDate.getYear(), currDate.getMonthValue(), currDate.getDayOfMonth(), original - oldAmount);
+                addToLedger(dateForLedger);
             }
         } else if (budget.getFrequency() == BudgetFrequency.weekly) {
-//            long oneWeek = TimeUnit.DAYS.toMillis(7);
-//            if (currTimeInMillis - oldTimeInMillis >= oneWeek) {
-//                double original = budget.getOriginalAmount();
-//                budget.setAmount(original);
-//                lastResetDate = currDate;
-//            }
-            LocalDateTime sevenDays = lastResetDate.plusDays(7);
-            if (currDate.getDayOfMonth() >= sevenDays.getDayOfMonth() ||
-                    currDate.getMonthValue() >= sevenDays.getMonthValue() || currDate.getYear() >= sevenDays.getYear()) {
+            LocalDateTime nextWeekResetDate;
+            if (loadNextWeekReset() != 0) {
+                nextWeekResetDate = Instant.ofEpochMilli(loadNextWeekReset()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            } else {
+                nextWeekResetDate = lastResetDate.plusDays(7);
+                saveNextWeekReset(nextWeekResetDate);
+            }
+            Log.d("BTAG", "seven days later: " + nextWeekResetDate);
+            if (currDate.isEqual(nextWeekResetDate) || currDate.isAfter(nextWeekResetDate)) {
                 lastResetDate = currDate;
+                nextWeekResetDate = currDate.plusDays(7);
+                saveNextWeekReset(nextWeekResetDate);
+                double oldAmount = budget.getAmount();
+                double original = budget.getOriginalAmount();
+                budget.setAmount(original);
+                budgetDateAndTime dateForLedger = new budgetDateAndTime(currDate.getHour(), currDate.getMinute(),
+                        currDate.getYear(), currDate.getMonthValue(), currDate.getDayOfMonth(), original - oldAmount);
+                addToLedger(dateForLedger);
             }
         } else {
             if (currDate.getMonthValue() != lastReset.getMonthValue()) {
+                double oldAmount = budget.getAmount();
                 double original = budget.getOriginalAmount();
                 budget.setAmount(original);
                 lastResetDate = currDate;
+                budgetDateAndTime dateForLedger =
+                        new budgetDateAndTime(currDate.getHour(), currDate.getMinute(), currDate.getYear(),
+                                currDate.getMonthValue(), currDate.getDayOfMonth(), original - oldAmount);
+                addToLedger(dateForLedger);
             }
         }
     }
@@ -414,6 +426,23 @@ public class BudgetFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("lastReset", Context.MODE_PRIVATE);
         long milliseconds = sharedPref.getLong("lastResetDate", 0);
         Log.d("BTAG", "last reset in loadResetDate: " + milliseconds);
+        return milliseconds;
+    }
+
+    public void saveNextWeekReset(LocalDateTime dateTime) {
+        if (dateTime != null) {
+            long milliseconds = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("nextWeekResetDate", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putLong("nextWeekReset", milliseconds);
+            editor.apply();
+        }
+    }
+
+    public long loadNextWeekReset() {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("nextWeekResetDate", Context.MODE_PRIVATE);
+        long milliseconds = sharedPref.getLong("nextWeekReset", 0);
+        Log.d("BTAG", "next reset in loadNextWeekReset: " + milliseconds);
         return milliseconds;
     }
 
