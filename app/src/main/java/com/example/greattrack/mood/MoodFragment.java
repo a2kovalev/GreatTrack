@@ -128,7 +128,6 @@ public class MoodFragment extends Fragment {
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            moodStack.pop();
                             recordMoodAlert(moodType);
                         }
                     });
@@ -182,6 +181,7 @@ public class MoodFragment extends Fragment {
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                moodStack.pop();
                 LocalDate currDate = LocalDate.now();
                 MoodDate moodDate = new MoodDate(currDate.getDayOfMonth(), currDate.getMonthValue(), currDate.getYear());
                 String moodExplanation = moodDescription.getText().toString();

@@ -1,6 +1,7 @@
 package com.example.greattrack.mood;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 enum moodTypes implements  Serializable {
     HAPPY, CONTENT, NEUTRAL, SAD, AWFUL, ANGRY, TIRED, BORED
@@ -28,4 +29,5 @@ public class Mood implements Serializable {
     public String getExplanation() {
         return explanation;
     }
+
 }

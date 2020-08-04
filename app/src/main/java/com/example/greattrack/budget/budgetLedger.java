@@ -66,8 +66,14 @@ public class budgetLedger extends AppCompatActivity {
                 int month = ledgerEntry.getMonth();
                 int day = ledgerEntry.getDay();
                 int year = ledgerEntry.getYear();
-                int hour = ledgerEntry.getHour();
-                int minute = ledgerEntry.getMinute();
+                String hour = Integer.toString(ledgerEntry.getHour());
+                if (ledgerEntry.getHour() < 10) {
+                    hour = "0" + ledgerEntry.getHour();
+                }
+                String minute = Integer.toString(ledgerEntry.getMinute());
+                if (ledgerEntry.getMinute() < 10) {
+                    minute = "0" + ledgerEntry.getMinute();
+                }
                 double amount = ledgerEntry.getAmount();
                 amountText.setText(df.format(amount));
                 amountText.setTextSize(20);
