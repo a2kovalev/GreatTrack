@@ -164,7 +164,21 @@ public class MoodFragment extends Fragment {
         cardViewParams.setMargins(20, 15, 20, 15);
         cardView.addView(textView, textViewParams);
         cardView.setOnClickListener(v -> {
-            goToStats();
+            if (!moodStack.isEmpty()) {
+                goToStats();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                builder.setTitle("No stats yet!");
+                builder.setMessage("To view stats, add your first mood!");
+                builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
         linearLayout.addView(cardView, cardViewParams);
 
