@@ -117,7 +117,7 @@ public class HabitFragment extends Fragment {
                     Log.d("TAG", "adding to linearLayout, am in for loop");
                     MyCardView cardView = new MyCardView(this.getContext());
                     cardView.setId(View.generateViewId());
-                    CardView.LayoutParams cardLayoutParams = new CardView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
+                    LinearLayout.LayoutParams cardLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
                     cardLayoutParams.setMargins(20, 10, 20, 10);
                     cardView.setLayoutParams(cardLayoutParams);
                     cardView.setRadius((float) 20.0);
@@ -154,9 +154,9 @@ public class HabitFragment extends Fragment {
                     RelativeLayout rl = new RelativeLayout(this.getContext());
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
-                    RelativeLayout.LayoutParams infoButtonParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
-                    RelativeLayout.LayoutParams statButtonParams = new RelativeLayout.LayoutParams(170, RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.but_width), RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams infoButtonParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.but_width), RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams statButtonParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.but_width), RelativeLayout.LayoutParams.MATCH_PARENT);
                     Button deleteButton = new Button(this.getContext());
                     Button statButton = new Button(this.getContext());
                     statButton.setId(View.generateViewId());

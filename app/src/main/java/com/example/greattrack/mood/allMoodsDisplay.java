@@ -22,6 +22,8 @@ import com.example.greattrack.R;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 
+import java.util.Stack;
+
 public class allMoodsDisplay extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +35,13 @@ public class allMoodsDisplay extends AppCompatActivity {
         getSupportActionBar().setTitle("All Recorded Moods");
         LinearLayout linearLayout = findViewById(R.id.allMoodsLinearLayout);
 
-        for (Mood mood : MoodFragment.moodStack) {
+        Stack<Mood> reverseMoods = new Stack<>();
+
+        for (int i = MoodFragment.moodStack.size() - 1; i >= 0; i--) {
+            reverseMoods.add(MoodFragment.moodStack.get(i));
+        }
+
+        for (Mood mood : reverseMoods) {
             LayoutInflater inflater = LayoutInflater.from(this);
             CardView cardView = (CardView) inflater.inflate(R.layout.mood_display_card, linearLayout, false);
             TextView cardTitle = cardView.findViewById(R.id.moodCardTitle);
