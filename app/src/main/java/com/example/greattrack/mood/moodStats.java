@@ -113,11 +113,12 @@ public class moodStats extends AppCompatActivity {
                 case AWFUL:
                     emoji = EmojiManager.getForAlias("weary");
                     emotionText = emoji.getUnicode() + " Awful";
-                    relativeLayout.setBackgroundColor(Color.parseColor("#c93204"));
+                    relativeLayout.setBackgroundColor(Color.parseColor("#a88218"));
                     break;
                 case ANGRY:
                     emoji = EmojiManager.getForAlias("rage");
                     emotionText = emoji.getUnicode() + " Angry";
+                    relativeLayout.setBackgroundColor(Color.parseColor("#c93204"));
                     break;
                 case TIRED:
                     emoji = EmojiManager.getForAlias("sleeping");
@@ -355,8 +356,8 @@ public class moodStats extends AppCompatActivity {
             entries.add(new BarEntry(1, moodFreqs.get(moodTypes.CONTENT)));
             entries.add(new BarEntry(2, moodFreqs.get(moodTypes.NEUTRAL)));
             entries.add(new BarEntry(3, moodFreqs.get(moodTypes.SAD)));
-            entries.add(new BarEntry(4, moodFreqs.get(moodTypes.ANGRY)));
-            entries.add(new BarEntry(5, moodFreqs.get(moodTypes.AWFUL)));
+            entries.add(new BarEntry(4, moodFreqs.get(moodTypes.AWFUL)));
+            entries.add(new BarEntry(5, moodFreqs.get(moodTypes.ANGRY)));
             entries.add(new BarEntry(6, moodFreqs.get(moodTypes.TIRED)));
             entries.add(new BarEntry(7, moodFreqs.get(moodTypes.BORED)));
 
@@ -455,8 +456,8 @@ public class moodStats extends AppCompatActivity {
             entries.add(new BarEntry(1, moodFreqs.get(moodTypes.CONTENT)));
             entries.add(new BarEntry(2, moodFreqs.get(moodTypes.NEUTRAL)));
             entries.add(new BarEntry(3, moodFreqs.get(moodTypes.SAD)));
-            entries.add(new BarEntry(4, moodFreqs.get(moodTypes.ANGRY)));
-            entries.add(new BarEntry(5, moodFreqs.get(moodTypes.AWFUL)));
+            entries.add(new BarEntry(4, moodFreqs.get(moodTypes.AWFUL)));
+            entries.add(new BarEntry(5, moodFreqs.get(moodTypes.ANGRY)));
             entries.add(new BarEntry(6, moodFreqs.get(moodTypes.TIRED)));
             entries.add(new BarEntry(7, moodFreqs.get(moodTypes.BORED)));
 

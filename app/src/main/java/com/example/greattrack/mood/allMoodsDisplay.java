@@ -80,11 +80,12 @@ public class allMoodsDisplay extends AppCompatActivity {
                 case AWFUL:
                     emoji = EmojiManager.getForAlias("weary");
                     emotionText = emoji.getUnicode() + " Awful";
-                    relativeLayout.setBackgroundColor(Color.parseColor("#c93204"));
+                    relativeLayout.setBackgroundColor(Color.parseColor("#a88218"));
                     break;
                 case ANGRY:
                     emoji = EmojiManager.getForAlias("rage");
                     emotionText = emoji.getUnicode() + " Angry";
+                    relativeLayout.setBackgroundColor(Color.parseColor("#c93204"));
                     break;
                 case TIRED:
                     emoji = EmojiManager.getForAlias("sleeping");

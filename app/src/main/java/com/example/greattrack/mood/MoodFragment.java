@@ -48,13 +48,14 @@ public class MoodFragment extends Fragment {
         Log.d("MTAG", "Mood stack at start: " + moodStack);
         for (moodTypes moodType : moodTypes.values()) {
             Log.d("MTAG", "adding mood: " + moodType.name());
-            CardView cardView = new CardView(this.getActivity());
-            LinearLayout.LayoutParams cardViewParams =
-                    new LinearLayout.LayoutParams(700, 200);
-            TextView textView = new TextView(this.getActivity());
-            textView.setTextColor(Color.parseColor("#f3f3f3"));
+            LayoutInflater inflater2 = LayoutInflater.from(this.getActivity());
+            CardView cardView = (CardView) inflater2.inflate(R.layout.mood_option_card, linearLayout, false);
+          /*  LinearLayout.LayoutParams cardViewParams =
+                    new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.moodbut_width), ViewGroup.LayoutParams.MATCH_PARENT, 1.0f); */
+            TextView textView = cardView.findViewById(R.id.optionNameText);
+            /*textView.setTextColor(Color.parseColor("#f3f3f3"));
             LinearLayout.LayoutParams textViewParams =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT); */
             String emotionText = "";
             Emoji emoji;
             switch (moodType) {
@@ -105,9 +106,9 @@ public class MoodFragment extends Fragment {
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             textView.setGravity(Gravity.CENTER_VERTICAL);
             cardView.setRadius(20);
-            cardViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+          /*  cardViewParams.gravity = Gravity.CENTER_HORIZONTAL;
             cardViewParams.setMargins(20, 15, 20, 15);
-            cardView.addView(textView, textViewParams);
+            cardView.addView(textView, textViewParams); */
 
             cardView.setOnClickListener(v -> {
                 boolean moodRecordedToday = false;
@@ -143,14 +144,13 @@ public class MoodFragment extends Fragment {
                 }
             });
 
-            linearLayout.addView(cardView, cardViewParams);
+            linearLayout.addView(cardView);
         }
 
-        CardView cardView = new CardView(this.getActivity());
-        LinearLayout.LayoutParams cardViewParams =
-                new LinearLayout.LayoutParams(700, 200);
+        LayoutInflater inflater2 = LayoutInflater.from(this.getActivity());
+        CardView cardView = (CardView) inflater2.inflate(R.layout.mood_option_card, linearLayout, false);
         cardView.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
-        TextView textView = new TextView(this.getActivity());
+        TextView textView = cardView.findViewById(R.id.optionNameText);
         textView.setTextColor(Color.parseColor("#f3f3f3"));
         LinearLayout.LayoutParams textViewParams =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -160,9 +160,6 @@ public class MoodFragment extends Fragment {
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         cardView.setRadius(20);
-        cardViewParams.gravity = Gravity.CENTER_HORIZONTAL;
-        cardViewParams.setMargins(20, 15, 20, 15);
-        cardView.addView(textView, textViewParams);
         cardView.setOnClickListener(v -> {
             if (!moodStack.isEmpty()) {
                 goToStats();
@@ -180,7 +177,7 @@ public class MoodFragment extends Fragment {
                 dialog.show();
             }
         });
-        linearLayout.addView(cardView, cardViewParams);
+        linearLayout.addView(cardView);
 
         return view;
     }

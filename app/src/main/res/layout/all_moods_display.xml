@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/allMoodsScrollView">
+    android:id="@+id/allMoodsScrollView"
+    android:screenOrientation="portrait">
     <LinearLayout
         android:id="@+id/allMoodsLinearLayout"
         android:layout_width="match_parent"

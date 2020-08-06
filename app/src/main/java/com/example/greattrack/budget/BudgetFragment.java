@@ -102,7 +102,7 @@ public class BudgetFragment extends Fragment {
 
             CardView budgetCardView = new CardView(this.getActivity());
             RelativeLayout.LayoutParams budgetCardParams =
-                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300);
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.hundred_dp));
             budgetCardParams.setMargins(100, 50, 100, 0);
             budgetCardView.setCardBackgroundColor(Color.parseColor("#10cc3f"));
             budgetCardView.setRadius((float) 50.0);
@@ -243,7 +243,8 @@ public class BudgetFragment extends Fragment {
             Button deleteButton = new Button(this.getActivity());
             deleteButton.setId(View.generateViewId());
             RelativeLayout.LayoutParams deleteButtonParams =
-                    new RelativeLayout.LayoutParams(200, 200);
+                    new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.small_but_budge),
+                            (int) getResources().getDimension(R.dimen.small_but_budge));
             deleteButtonParams.setMargins(0, 15, 0, 5);
             deleteButton.setBackgroundResource(R.drawable.round_btn4);
             deleteButton.setPadding(5, 0, 5 ,0);
@@ -284,7 +285,8 @@ public class BudgetFragment extends Fragment {
             Button editButton = new Button(this.getActivity());
             editButton.setId(View.generateViewId());
             RelativeLayout.LayoutParams editButtonParams =
-                    new RelativeLayout.LayoutParams(200, 200);
+                    new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.small_but_budge),
+                            (int) getResources().getDimension(R.dimen.small_but_budge));
             editButtonParams.setMargins(10, 15, 0, 5);
             editButton.setBackgroundResource(R.drawable.round_btn5);
             editButton.setPadding(5, 5, 5 ,5);
@@ -297,7 +299,8 @@ public class BudgetFragment extends Fragment {
 
             Button historyButton = new Button(this.getActivity());
             RelativeLayout.LayoutParams historyButtonParams =
-                    new RelativeLayout.LayoutParams(200, 200);
+                    new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.small_but_budge),
+                            (int) getResources().getDimension(R.dimen.small_but_budge));
             historyButtonParams.setMargins(10, 15, 0, 5);
             historyButton.setBackgroundResource(R.drawable.round_btn6);
             historyButton.setPadding(5, 5, 5 ,5);
