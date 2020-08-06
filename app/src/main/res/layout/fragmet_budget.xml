@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.greattrack.budget.BudgetFragment"
+    tools:context="com.example.greattrack.akov.example.greattrack.budget.BudgetFragment"
     android:screenOrientation="portrait">
 
     <RelativeLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.greattrack">
+    package="akov.example.greattrack">
 
     <application
         android:allowBackup="true"
@@ -9,36 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="akov.example.greattrack.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".habit.HabitDialogueActivity"
-            android:parentActivityName=".MainActivity">
+        <activity android:name="akov.example.greattrack.habit.HabitDialogueActivity"
+            android:parentActivityName="akov.example.greattrack.MainActivity">
         </activity>
-        <activity android:name=".habit.HabitLog"
-            android:parentActivityName=".MainActivity">
+        <activity android:name="akov.example.greattrack.habit.HabitLog"
+            android:parentActivityName="akov.example.greattrack.MainActivity">
         </activity>
-        <activity android:name=".habit.HabitStats"
-            android:parentActivityName=".MainActivity">
+        <activity android:name="akov.example.greattrack.habit.HabitStats"
+            android:parentActivityName="akov.example.greattrack.MainActivity">
         </activity>
-        <activity android:name=".habit.editHabit"
-            android:parentActivityName=".MainActivity">
+        <activity android:name="akov.example.greattrack.habit.editHabit"
+            android:parentActivityName="akov.example.greattrack.MainActivity">
         </activity>
         <activity
-            android:name=".budget.createBudget"
-            android:parentActivityName=".MainActivity" />
+            android:name="akov.example.greattrack.budget.createBudget"
+            android:parentActivityName="akov.example.greattrack.MainActivity" />
         <activity
-            android:name=".budget.editBudget"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".budget.budgetLedger"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".mood.moodStats"/>
-        <activity android:name=".mood.allMoodsDisplay"
-            android:parentActivityName=".mood.moodStats"/>
+            android:name="akov.example.greattrack.budget.editBudget"
+            android:parentActivityName="akov.example.greattrack.MainActivity" />
+        <activity android:name="akov.example.greattrack.budget.budgetLedger"
+            android:parentActivityName="akov.example.greattrack.MainActivity"/>
+        <activity android:name="akov.example.greattrack.mood.moodStats"/>
+        <activity android:name="akov.example.greattrack.mood.allMoodsDisplay"
+            android:parentActivityName="akov.example.greattrack.mood.moodStats"/>
     </application>
 
 </manifest>

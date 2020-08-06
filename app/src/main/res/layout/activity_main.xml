@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity"
+    tools:context="akov.example.greattrack.MainActivity"
     android:screenOrientation="portrait"
     >
 
@@ -30,10 +30,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemBackground="@color/greenBoi" />
 
-    <com.example.greattrack.CustomViewPager
+    <akov.example.greattrack.CustomViewPager
         android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.example.greattrack.CustomViewPager>
+    </akov.example.greattrack.CustomViewPager>
 
 </RelativeLayout>
