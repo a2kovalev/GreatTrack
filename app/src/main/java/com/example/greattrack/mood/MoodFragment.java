@@ -129,6 +129,9 @@ public class MoodFragment extends Fragment {
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (!moodStack.isEmpty()) {
+                                moodStack.pop();
+                            }
                             recordMoodAlert(moodType);
                         }
                     });
@@ -140,6 +143,7 @@ public class MoodFragment extends Fragment {
                         }
                     });
                     AlertDialog dialog2 = builder.create();
+                    dialog2.setCanceledOnTouchOutside(false);
                     dialog2.show();
                 }
             });
@@ -192,9 +196,6 @@ public class MoodFragment extends Fragment {
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!moodStack.isEmpty()) {
-                    moodStack.pop();
-                }
                 LocalDate currDate = LocalDate.now();
                 MoodDate moodDate = new MoodDate(currDate.getDayOfMonth(), currDate.getMonthValue(), currDate.getYear());
                 String moodExplanation = moodDescription.getText().toString();
@@ -214,6 +215,7 @@ public class MoodFragment extends Fragment {
             }
         });
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
