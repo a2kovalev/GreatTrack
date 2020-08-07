@@ -18,6 +18,7 @@ import akov.example.greattrack.R;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 
+import java.util.Locale;
 import java.util.Stack;
 
 public class allMoodsDisplay extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class allMoodsDisplay extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_moods_display);
+        Locale.setDefault(new Locale("en", "US"));
         Log.d("MTAG", "in all moods display onCreate");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#45bd00")));

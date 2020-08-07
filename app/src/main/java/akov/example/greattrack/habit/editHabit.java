@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 import akov.example.greattrack.R;
 
 public class editHabit extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class editHabit extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("TAG", "In OnCreate of HabitDialogue");
         super.onCreate(savedInstanceState);
+        Locale.setDefault(new Locale("en", "US"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.edit_habit_alert);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));

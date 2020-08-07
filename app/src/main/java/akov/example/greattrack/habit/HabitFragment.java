@@ -35,6 +35,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class HabitFragment extends Fragment {
@@ -48,6 +49,7 @@ public class HabitFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("TAG", "HabitFragment OnCreateView");
         Log.d("TAG", "habit list size before add new habit: " + habitList.size());
+        Locale.setDefault(new Locale("en", "US"));
         if (getHabitList() != null) {
             habitList = getHabitList();
         }

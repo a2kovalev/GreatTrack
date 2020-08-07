@@ -25,11 +25,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class HabitStats extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale.setDefault(new Locale("en", "US"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.d("TAG", "Habit stats activity");
         setContentView(R.layout.habit_stats);

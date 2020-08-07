@@ -15,11 +15,14 @@ import akov.example.greattrack.habit.HabitFragment;
 import akov.example.greattrack.mood.MoodFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale.setDefault(new Locale("en", "US"));
         setContentView(R.layout.activity_main);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10cc3f")));
         getSupportActionBar().setTitle("GreatTrack Lifestyle Tracker");

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import akov.example.greattrack.R;
 
@@ -33,6 +34,7 @@ public class HabitLog extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale.setDefault(new Locale("en", "US"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.d("TAG", "Habit Log activity");
         RelativeLayout relativeLayout = findViewById(R.id.habitLogRelativeLayout);

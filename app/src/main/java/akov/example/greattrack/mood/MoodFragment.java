@@ -26,6 +26,7 @@ import com.vdurmont.emoji.EmojiManager;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Stack;
 
 public class MoodFragment extends Fragment {
@@ -37,6 +38,7 @@ public class MoodFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mood, container, false);
+        Locale.setDefault(new Locale("en", "US"));
         Log.d("MTAG", "Mood fragment onCreate");
         linearLayout = view.findViewById(R.id.moodFragmentLinearLayout);
         if (getMoodStack() != null) {

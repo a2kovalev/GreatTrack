@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
@@ -42,6 +43,7 @@ public class moodStats extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale.setDefault(new Locale("en", "US"));
         getSupportActionBar().setTitle("Mood Statistics");
         Log.d("TAG", "Mood stats activity");
         setContentView(R.layout.mood_stats_activity);
