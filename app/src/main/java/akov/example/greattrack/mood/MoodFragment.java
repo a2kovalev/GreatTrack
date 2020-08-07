@@ -250,4 +250,10 @@ public class MoodFragment extends Fragment {
         super.onDestroy();
         saveMoodStack();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveMoodStack();
+    }
 }

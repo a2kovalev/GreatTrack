@@ -83,6 +83,12 @@ public class BudgetFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        saveLedger();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         saveBudget();
